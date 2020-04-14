@@ -5,5 +5,8 @@
   
   <mapper namespace="com.easyLedger.mapper.easyLedgerMapper">
   
+  	<select id="selectAll" resultType="board">
+  		select *from board
+  	</select>
   
   </mapper> 
