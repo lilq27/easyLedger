@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,19 +38,19 @@
           <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
           <li>
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/registration">등록</a>
           </li>
-          <li>
+          <!-- <li>
             <a class="nav-link" href="#">Link</a>
           </li>
           <li>
             <a class="nav-link" href="#">Link</a>
-          </li>
+          </li> -->
           </ul>
 
             <ul class="nav navbar-nav navbar-right">
-              <li><a href=""><span class="glyphicon glyphicon-user"></span>
-                Sign Up</a></li>
+              <!-- <li><a href=""><span class="glyphicon glyphicon-user"></span>
+                Sign Up</a></li> -->
               <li><a href=""><span class="glyphicon glyphicon-log-out"></span>
                 Log Out</a></li>
               </ul>
@@ -65,6 +65,7 @@
         <h2>Easy Ledger</h2>            
         <table class="table table-hover">
           <thead>
+         <c:forEach var="select" items="${selectAll}">
             <tr>
               <th>이름</th>
               <th>학년</th>
@@ -75,17 +76,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-            <C:forEach var="select" items="${selectAll }" >
-              <td>${select.name }</td>
-              <td>${select.grade }</td>
-              <td>${select.paid }</td>
-              <td>${select.deposiDate }</td>
-              <td>${select.paymentOption }</td>
-              <td>${select.memo }</td>
-              
-            </C:forEach> 
+            <tr>      
+              <td>${select.name}</td>
+              <td>${select.grade}</td>
+              <td>${select.paid}</td>
+              <td>${select.depositDate}</td>
+              <td>${select.paymentOption}</td>
+              <td>${select.memo}</td>
             </tr>
+         </c:forEach> 
           </tbody>
         </table>
 

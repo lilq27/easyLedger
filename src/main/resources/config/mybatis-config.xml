@@ -6,6 +6,8 @@
   <configuration>
   		<typeAliases>
   			<typeAlias type="com.easyLedger.domain.boardVO" alias="board"/>
+  			<typeAlias type="com.easyLedger.domain.PagingVO" alias="page"/>
+  			<typeAlias type="com.easyLedger.domain.CriteriaVO" alias="criteria"/>
   		</typeAliases>
   		<mappers>
   			<mapper resource="mapper/easyLedgerMapper.xml"/>

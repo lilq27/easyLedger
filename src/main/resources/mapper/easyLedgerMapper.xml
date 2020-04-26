@@ -9,4 +9,68 @@
   		select *from board
   	</select>
   
+  	<insert id="registration" parameterType="board">
+  		<selectKey keyProperty="name_id" order="BEFORE" resultType="int">
+			select name_sq.nextval from dual
+		</selectKey>
+  		insert into board values(#{name_id},#{name:VARCHAR},
+  		#{grade:VARCHAR},#{paid:VARCHAR},#{depositDate:VARCHAR},
+  		#{paymentOption:VARCHAR},#{memo:VARCHAR})
+  	</insert>
+
+	<sql id="findWhere">
+		<if test="findType != null and keyWord !=''">
+		<where>
+			<if test="findType==1">	
+				(name like '%'||#{keyWord}||'%' or grade like '%'||#{keyWord}||'%'
+				 or depositdate like '%'||#{keyWord}||'%' or paymentoption like '%'||#{keyWord}||'%'
+				 or paid like '%'||#{keyWord}||'%' or memo like '%'||#{keyWord}||'%')
+			</if>
+			<if test="findType==2">
+				name like '%'||#{keyWord}||'%'
+			</if>
+			<if test="findType==3">
+				grade like '%'||#{keyWord}||'%'
+			</if>
+			<if test="findType==4">
+				depositdate like '%'||#{keyWord}||'%'
+			</if>
+			<if test="findType==5">
+				paymentoption like '%'||#{keyWord}||'%'
+			</if>	
+		</where>
+		</if>
+	</sql>
+	
+	<select id="selectPaging" resultType="board" parameterType="page">
+	select *from(
+	select rownum rn, a.* from
+	(select * from board 
+	<include refid="findWhere"/>
+	order by name_id desc) a
+	<![CDATA[
+	where rownum <=#{pageNum} * #{amount}
+	)
+	where rn > (#{pageNum}-1) * #{amount}
+	]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(name_id) from board 
+		<include refid="findWhere"/>
+	</select>
+	
+	<select id="getNameId" resultType="board" parameterType="int">
+		select * from board where name_id=#{name_id}
+	</select>
+	
+	<update id="modify" parameterType="board">
+		update board set name=#{name}, grade=#{grade}, paid=#{paid}, depositDate=#{depositDate},
+		paymentOption=#{paymentOption}, memo=#{memo} where name_id=#{name_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where name_id=#{name_id}
+	</delete>
+	
   </mapper> 

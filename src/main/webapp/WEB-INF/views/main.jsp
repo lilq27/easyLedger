@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +19,39 @@
   
 </style>
 <script>
+$(document).ready(function(){
+	var actionForm=$("#actionForm");
+	$(".paginate_button a").on("click",function(e){
+		e.preventDefault();
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	var searchForm=$("#searchForm");
+	$("#search").on("click",function(e){
+		if(!searchForm.find("input[name='keyWord']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		searchForm.find("input[name='pageNum']").val("1");
+		e.preventDefault();
+		searchForm.submit();	
+	})
+	
+	$("#tableClick tr").dblclick(function(){
+		var tr=$(this);
+		var td=tr.children();
+		var no = td.eq(0).text();
+		//alert(no);
+		/*$('#name_id').get(0).click(); */
+ 		window.open('modify?name_id='+no+'','등록','width=500,height=670');
+ 		
+		$("#tableClick tr>th").dblclick(function(){
+			return false;
+		})
+	}) 
+	
+});
 
 </script>
 <body>
@@ -32,39 +65,37 @@
               <span class="icon-bar"></span>
            </button>
 
-           <a class="navbar-brand" href="">Easy Ledger</a>
+           <a class="navbar-brand" href="${pageContext.request.contextPath }/main">Easy Ledger</a>
           </div> 
 
           <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
           <li>
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="javascript:void(window.open('${pageContext.request.contextPath}/regist','등록','width=500,height=670'))">등록</a>
           </li>
-          <li>
+          <!-- <li>
             <a class="nav-link" href="#">Link</a>
           </li>
           <li>
             <a class="nav-link" href="#">Link</a>
-          </li>
+          </li> -->
           </ul>
 
             <ul class="nav navbar-nav navbar-right">
-              <li><a href=""><span class="glyphicon glyphicon-user"></span>
-                Sign Up</a></li>
+              <!-- <li><a href=""><span class="glyphicon glyphicon-user"></span>
+                Sign Up</a></li> -->
               <li><a href=""><span class="glyphicon glyphicon-log-out"></span>
                 Log Out</a></li>
               </ul>
           </div>
     </div>
   </nav>
-    
-      <br>
-      <br>
 
       <div class="container">
         <h2>Easy Ledger</h2>            
-        <table class="table table-hover">
+        <table class="table table-hover" id="tableClick">
           <thead>
+         <c:forEach var="select" items="${boardList}">  	
             <tr>
               <th>이름</th>
               <th>학년</th>
@@ -75,29 +106,63 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-            <C:forEach var="select" items="${selectAll }" >
-              <td>${select.name }</td>
-              <td>${select.grade }</td>
-              <td>${select.paid }</td>
-              <td>${select.deposiDate }</td>
-              <td>${select.paymentOption }</td>
-              <td>${select.memo }</td>
-              
-            </C:forEach> 
+            <tr>      
+              <td style="display:none">${select.name_id}</td>  
+              <td>${select.name}</td>      
+              <td>${select.grade}</td>
+              <td>${select.paid}</td>
+              <td>${select.depositDate}</td>
+              <td>${select.paymentOption}</td>
+              <td>${select.memo}</td>  
             </tr>
+         </c:forEach> 
+          
           </tbody>
         </table>
-
-        <div align="center">
-          <form class="form-inline" action="/action_page.php">
-            <input class="form-control mr-sm-3" type="text" placeholder="Search">
-            <button class="btn btn-success" type="submit">Search</button>
+	<div class='pull-right'>
+		<ul class="pagination">
+			<c:if test="${paging.prev }">
+			<li class="paginate_button previous">
+			<a href="${paging.startPage -1 }">Previous</a></li>
+			</c:if>
+			<c:forEach var="num" begin="${paging.startPage }" end="${paging.endPage }">
+			<li class="paginate_button ${paging.cri.pageNum == num ? "active":"" }">
+			<a href="${num }">${num}</a></li>
+			</c:forEach>
+			<c:if test="${paging.next }">
+			<li class="paginate_button next">
+			<a href="${paging.endPage +1 }">Next</a></li>
+			</c:if>
+		</ul>
+	</div>
+	<form id="actionForm" action="main" method="get">
+		<input type="hidden" name="pageNum" value="${paging.cri.pageNum }">
+		<input type="hidden" name="amount" value="${paging.cri.amount }">
+		<input type="hidden" name="keyWord" value="${paging.cri.keyWord}">
+		<input type="hidden" name="findType" value="${paging.cri.findType}">	
+	</form>
+		
+		<div align="center">
+          <form class="form-inline" id="searchForm" action="main" method="get">
+          <select name="findType" class="form-control">
+          	<option value="1">전체</option>
+          	<option value="2"
+          		<c:out value="${paging.cri.findType eq '2' ? 'selected' : '' }"/>>이름</option>
+          	<option value="3"
+          		<c:out value="${paging.cri.findType eq '3' ? 'selected' : '' }"/>>학년</option>
+          	<option value="4"
+				<c:out value="${paging.cri.findType eq '4' ? 'selected' : '' }"/>>입금 날짜</option> 
+          	<option value="5"
+				<c:out value="${paging.cri.findType eq '5' ? 'selected' : '' }"/>>결제 방법</option> 
+          </select>
+          	<input type="hidden" name="pageNum" value="${paging.cri.pageNum }">
+			<input type="hidden" name="amount" value="${paging.cri.amount }">
+            <input class="form-control mr-sm-3" type="text" name="keyWord" placeholder="Search"
+            	value="${paging.cri.keyWord }">
+            <button class="btn btn-success" id="search">Search</button>
           </form>
           </div>
 
-      </div>
-
-      
+      </div>      
 </body>
 </html>
