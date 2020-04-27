@@ -73,4 +73,8 @@
 		delete from board where name_id=#{name_id}
 	</delete>
 	
+	<insert id="memberRegist" parameterType="member">
+		insert into member values(#{email:VARCHAR},#{pwd:VARCHAR},#{name:VARCHAR})
+	</insert>
+	
   </mapper> 

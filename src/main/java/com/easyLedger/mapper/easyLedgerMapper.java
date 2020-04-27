@@ -5,6 +5,7 @@ import java.util.List;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.memberVO;
 
 public interface easyLedgerMapper {
 	
@@ -21,5 +22,9 @@ public interface easyLedgerMapper {
 	int delete(Integer name_id);
 	
 	int modify(boardVO board);
+	
+	int emailCheck(String email);
+	
+	int memberRegist(memberVO member);
 
 }

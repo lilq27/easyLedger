@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.memberVO;
 import com.easyLedger.mapper.easyLedgerMapper;
 @Service(value="boardSI")
 public class boardServiceImpl implements boardService {
@@ -54,6 +55,18 @@ public class boardServiceImpl implements boardService {
 	public int modify(boardVO board) {
 		// TODO Auto-generated method stub
 		return elMapper.modify(board);
+	}
+
+	@Override
+	public int emailCheck(String email) {
+		// TODO Auto-generated method stub
+		return elMapper.emailCheck(email);
+	}
+
+	@Override
+	public int memberRegist(memberVO member) {
+		// TODO Auto-generated method stub
+		return elMapper.memberRegist(member);
 	}
 
 	

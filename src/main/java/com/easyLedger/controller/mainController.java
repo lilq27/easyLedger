@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.memberVO;
 import com.easyLedger.service.boardService;
 
 
@@ -98,6 +99,30 @@ public class mainController {
 		}
 		return "message";
 	}
+	
+	@RequestMapping("/signin")
+	public String signin() {
+		return "Signin";
+	}
+	@GetMapping("/signup")
+		public String memberRegist() {
+			return "Signup";
+		}
+	
+	@PostMapping("/signup")
+	public String memberRegist(memberVO member, Model m) {
+		
+		int n=boardService.memberRegist(member);
+		
+		String msg=(n>0)?"회원가입 성공":"회원가입 실패";
+		String loc=(n>0)?"/easyLedger":"javascript:history.back()";
+		
+		m.addAttribute("msg",msg);
+		m.addAttribute("loc",loc);
+						
+		return "message";
+	}
+	
 	
 	
 }
