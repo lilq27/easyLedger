@@ -16,7 +16,7 @@
   		insert into board values(#{name_id},#{name:VARCHAR},
   		#{grade:VARCHAR},#{paid:VARCHAR},#{depositDate:VARCHAR},
   		#{paymentOption:VARCHAR},#{memo:VARCHAR})
-  	</insert>
+  	</insert> 
 
 	<sql id="findWhere">
 		<if test="findType != null and keyWord !=''">
