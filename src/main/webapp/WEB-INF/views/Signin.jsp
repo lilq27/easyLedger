@@ -8,21 +8,41 @@
 <p><br>
     <div class="head2">Sign in to Easy Ledger</div></p>
     
-  <form action="signin">
+  <form id="loginForm" action="signin" method="post">
     <div class="panel panel-default">
     <div class="form-group" style="width: 350px; padding-left: 85px; padding-top: 30px;" >
       <label for="usr">Email:</label>
-      <input type="email" class="form-control" id="email" >
+      <input type="email" class="form-control" name="email" id="email" >
     </div>
     <div class="form-group" style="width: 350px;  padding-left: 85px;">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd">
+      <input type="password" class="form-control" name="pwd" id="pwd">
     </div>
     <div style="padding-bottom: 20px;">
-      <button id="button" class="btn btn-success" type="submit">Sign in</button>
+      <button id="button" class="btn btn-success">Sign in</button>
     </div>
     </form>
   </form>
 </div>
 <c:import url="/foot"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/Signin.css"/>
+
+<script>
+	$(document).ready(function(){
+		var loginForm=$("#loginForm");
+		$("#button").on("click",function(e){
+			if(!loginForm.find("input[name='email']").val()){
+				alert("이메일을 입력하세요");
+				return false;
+			}else if(!loginForm.find("input[name='pwd']").val()){
+				alert("비밀번호를 입력하세요");
+				return false;
+			}
+			e.preventDefault();
+			loginForm.submit();
+				
+		})
+		
+	
+	})
+</script>

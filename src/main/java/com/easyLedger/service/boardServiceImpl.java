@@ -1,6 +1,8 @@
 package com.easyLedger.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
-import com.easyLedger.domain.memberVO;
+import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.mapper.easyLedgerMapper;
 @Service(value="boardSI")
 public class boardServiceImpl implements boardService {
@@ -28,9 +30,9 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public List<boardVO> selectPaging(CriteriaVO cri) {
+	public List<boardVO> selectPaging(CriteriaVO loginUser,CriteriaVO cri) {
 		// TODO Auto-generated method stub
-		return elMapper.selectPaging(cri);
+		return elMapper.selectPaging(loginUser,cri);
 	}
 
 	@Override
@@ -40,15 +42,15 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public boardVO getNameId(Integer name_id) {
+	public boardVO getMemberEmail(String member_eamil) {
 		// TODO Auto-generated method stub
-		return elMapper.getNameId(name_id);
+		return elMapper.getMemberEmail(member_eamil);
 	}
 
 	@Override
-	public int delete(Integer name_id) {
+	public int delete(String member_eamil) {
 		// TODO Auto-generated method stub
-		return elMapper.delete(name_id);
+		return elMapper.delete(member_eamil);
 	}
 
 	@Override
@@ -64,9 +66,24 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public int memberRegist(memberVO member) {
+	public int memberRegist(CriteriaVO member) {
 		// TODO Auto-generated method stub
 		return elMapper.memberRegist(member);
+	}
+
+	@Override
+	public CriteriaVO finduserByemail(String email) {
+		// TODO Auto-generated method stub
+		return elMapper.finduserByemail(email);
+	}
+
+	@Override
+	public CriteriaVO loginCheck(String email, String pwd) throws NotUserException {
+		// TODO Auto-generated method stub
+		CriteriaVO dbuser=finduserByemail(email);
+		if(dbuser==null)throw new NotUserException("등록되지 않은 회원입니다.");
+		if(!dbuser.getPwd().equals(pwd)) throw new NotUserException("비밀번호가 일치하지 않습니다.");
+		return dbuser;
 	}
 
 	

@@ -11,11 +11,12 @@
   
   	<insert id="registration" parameterType="board">
   		<selectKey keyProperty="name_id" order="BEFORE" resultType="int">
-			select name_sq.nextval from dual
+			select bno.nextval from dual
 		</selectKey>
-  		insert into board values(#{name_id},#{name:VARCHAR},
-  		#{grade:VARCHAR},#{paid:VARCHAR},#{depositDate:VARCHAR},
-  		#{paymentOption:VARCHAR},#{memo:VARCHAR})
+  		insert into board values(#{bno},
+  		(select email from member where email=#{email}),
+  		#{name:VARCHAR},#{grade:VARCHAR},#{paid:VARCHAR},
+  		#{depositDate:VARCHAR},#{paymentOption:VARCHAR},#{memo:VARCHAR})
   	</insert> 
 
 	<sql id="findWhere">
@@ -47,21 +48,22 @@
 	select rownum rn, a.* from
 	(select * from board 
 	<include refid="findWhere"/>
-	order by name_id desc) a
+	order by bno desc) a
 	<![CDATA[
 	where rownum <=#{pageNum} * #{amount}
+	and member_email=#{email}
 	)
 	where rn > (#{pageNum}-1) * #{amount}
 	]]>
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
-		select count(name_id) from board 
+		select count(member_email) from board 
 		<include refid="findWhere"/>
 	</select>
 	
-	<select id="getNameId" resultType="board" parameterType="int">
-		select * from board where name_id=#{name_id}
+	<select id="getNameId" resultType="board" parameterType="String">
+		select * from board where member_email=#{member_email}
 	</select>
 	
 	<update id="modify" parameterType="board">
@@ -69,12 +71,20 @@
 		paymentOption=#{paymentOption}, memo=#{memo} where name_id=#{name_id}
 	</update>
 	
-	<delete id="delete" parameterType="int">
-		delete from board where name_id=#{name_id}
+	<delete id="delete" parameterType="String">
+		delete from board where member_email=#{member_email}
 	</delete>
 	
-	<insert id="memberRegist" parameterType="member">
+	<insert id="memberRegist" parameterType="criteria">
 		insert into member values(#{email:VARCHAR},#{pwd:VARCHAR},#{name:VARCHAR})
 	</insert>
+	
+	<select id="emailCheck" parameterType="String" resultType="int">
+		select count(email) from member where email=#{email}
+	</select>
+	
+	<select id="finduserByemail" parameterType="String" resultType="criteria">
+		select * from member where email=#{email}
+	</select>
 	
   </mapper> 

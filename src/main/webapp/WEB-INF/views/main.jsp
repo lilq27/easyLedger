@@ -43,8 +43,8 @@ $(document).ready(function(){
 		var td=tr.children();
 		var no = td.eq(0).text();
 		//alert(no);
-		/*$('#name_id').get(0).click(); */
- 		window.open('modify?name_id='+no+'','등록','width=500,height=670');
+		/*$('#member_email').get(0).click(); */
+ 		window.open('modify?member_email='+no+'','등록','width=500,height=670');
  		
 		$("#tableClick tr>th").dblclick(function(){
 			return false;
@@ -84,7 +84,7 @@ $(document).ready(function(){
             <ul class="nav navbar-nav navbar-right">
               <!-- <li><a href=""><span class="glyphicon glyphicon-user"></span>
                 Sign Up</a></li> -->
-              <li><a href=""><span class="glyphicon glyphicon-log-out"></span>
+              <li><a href="${pageContext.request.contextPath }/logout"><span class="glyphicon glyphicon-log-out"></span>
                 Log Out</a></li>
               </ul>
           </div>
@@ -107,7 +107,7 @@ $(document).ready(function(){
           </thead>
           <tbody>
             <tr>      
-              <td style="display:none">${select.name_id}</td>  
+              <td style="display:none">${select.member_email}</td>  
               <td>${select.name}</td>      
               <td>${select.grade}</td>
               <td>${select.paid}</td>

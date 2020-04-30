@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class boardVO implements Serializable {
 
-	private Integer name_id;
+	private Integer bno;
+	private String member_email;
 	private String name;
 	private String grade;
 	private String paid;
