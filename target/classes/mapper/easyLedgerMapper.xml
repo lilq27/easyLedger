@@ -75,7 +75,7 @@
 		delete from board where member_email=#{member_email}
 	</delete>
 	
-	<insert id="memberRegist" parameterType="criteria">
+	<insert id="memberRegist" parameterType="member">
 		insert into member values(#{email:VARCHAR},#{pwd:VARCHAR},#{name:VARCHAR})
 	</insert>
 	
@@ -83,7 +83,7 @@
 		select count(email) from member where email=#{email}
 	</select>
 	
-	<select id="finduserByemail" parameterType="String" resultType="criteria">
+	<select id="finduserByemail" parameterType="String" resultType="member">
 		select * from member where email=#{email}
 	</select>
 	

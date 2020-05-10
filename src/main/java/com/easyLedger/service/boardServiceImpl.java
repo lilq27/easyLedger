@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.memberVO;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.mapper.easyLedgerMapper;
 @Service(value="boardSI")
@@ -30,10 +31,12 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public List<boardVO> selectPaging(CriteriaVO loginUser,CriteriaVO cri) {
+	public List<boardVO> selectPaging(String string, CriteriaVO cri) {
+		memberVO member = null;
 		// TODO Auto-generated method stub
-		return elMapper.selectPaging(loginUser,cri);
+		return elMapper.selectPaging(cri, member);
 	}
+
 
 	@Override
 	public int getTotalCount(CriteriaVO cri) {
@@ -66,25 +69,26 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public int memberRegist(CriteriaVO member) {
+	public int memberRegist(memberVO member) {
 		// TODO Auto-generated method stub
 		return elMapper.memberRegist(member);
 	}
 
 	@Override
-	public CriteriaVO finduserByemail(String email) {
+	public memberVO finduserByemail(String email) {
 		// TODO Auto-generated method stub
 		return elMapper.finduserByemail(email);
 	}
 
 	@Override
-	public CriteriaVO loginCheck(String email, String pwd) throws NotUserException {
+	public memberVO loginCheck(String email, String pwd) throws NotUserException {
 		// TODO Auto-generated method stub
-		CriteriaVO dbuser=finduserByemail(email);
+		memberVO dbuser=finduserByemail(email);
 		if(dbuser==null)throw new NotUserException("등록되지 않은 회원입니다.");
 		if(!dbuser.getPwd().equals(pwd)) throw new NotUserException("비밀번호가 일치하지 않습니다.");
 		return dbuser;
 	}
+
 
 	
 

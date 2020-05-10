@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.memberVO;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.service.NotUserException;
 import com.easyLedger.service.boardService;
@@ -41,6 +42,7 @@ public class mainController {
 
 	@RequestMapping("/main")
 	public String paging(Model m,@ModelAttribute CriteriaVO cri,
+			@ModelAttribute memberVO member,
 			/*HttpServletRequest req*/
 			HttpSession ses){
 	
@@ -50,18 +52,16 @@ public class mainController {
 		int totalCount=boardService.getTotalCount(cri);
 		
 		PagingVO paging =new PagingVO(totalCount, cri);
-		CriteriaVO loginUser=(CriteriaVO)ses.getAttribute("loginUser");
+		memberVO loginUser=(memberVO)ses.getAttribute("loginUser");
 		
-		List<boardVO> blist=boardService.selectPaging(loginUser,cri);
-		
-		/*String sesEmail=req.getParameter(member.getEmail());*/
+		List<boardVO> blist=boardService.selectPaging(loginUser.getEmail(),cri);
 		
 		m.addAttribute("boardList",blist);
 		m.addAttribute("totalCount",totalCount);
 		m.addAttribute("paging",paging);
 		m.addAttribute("email",loginUser.getEmail());
 		
-		System.out.println(loginUser.getEmail());
+		//System.out.println(loginUser.getEmail());
 	//}
 		return "main";
 		
@@ -125,7 +125,7 @@ public class mainController {
 	}
 	
 	@PostMapping("/signup")
-	public String memberRegist(CriteriaVO member, Model m) {
+	public String memberRegist(memberVO member, Model m) {
 		
 		int n=boardService.memberRegist(member);
 		
@@ -163,7 +163,7 @@ public class mainController {
 		if(email.trim().isEmpty()||pwd.trim().isEmpty()) {
 			return "redirect:/";
 		}
-		CriteriaVO loginUser=boardService.loginCheck(email, pwd);
+		memberVO loginUser=boardService.loginCheck(email, pwd);
 		if(loginUser!=null) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);

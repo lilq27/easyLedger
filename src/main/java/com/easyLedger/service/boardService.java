@@ -15,7 +15,7 @@ public interface boardService {
 
 	int registration(boardVO board);
 	
-	List<boardVO> selectPaging(CriteriaVO loginUser,CriteriaVO cri);
+	List<boardVO> selectPaging(String string,CriteriaVO cri);
 	
 	int getTotalCount(CriteriaVO cri);
 	
@@ -27,11 +27,11 @@ public interface boardService {
 	
 	int emailCheck(String email);
 	
-	int memberRegist(CriteriaVO member);
+	int memberRegist(memberVO member);
 	
-	CriteriaVO finduserByemail(String email);
+	memberVO finduserByemail(String email);
 	
-	CriteriaVO loginCheck(String email, String pwd) throws NotUserException;
+	memberVO loginCheck(String email, String pwd) throws NotUserException;
 	
 	
 }
