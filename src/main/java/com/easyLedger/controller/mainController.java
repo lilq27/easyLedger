@@ -1,14 +1,12 @@
 package com.easyLedger.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +21,14 @@ import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
 import com.easyLedger.domain.memberVO;
-import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.service.NotUserException;
 import com.easyLedger.service.boardService;
 
+import lombok.extern.log4j.Log4j;
+
 
 @Controller
+@Log4j
 public class mainController {
 
 	@Inject
@@ -41,28 +41,24 @@ public class mainController {
 
 
 	@RequestMapping("/main")
+	/**mainController.paging*/
 	public String paging(Model m,@ModelAttribute CriteriaVO cri,
-			@ModelAttribute memberVO member,
 			/*HttpServletRequest req*/
 			HttpSession ses){
-	
-	
-		
-	//if(blist!=null) {
-		int totalCount=boardService.getTotalCount(cri);
-		
-		PagingVO paging =new PagingVO(totalCount, cri);
-		memberVO loginUser=(memberVO)ses.getAttribute("loginUser");
-		
-		List<boardVO> blist=boardService.selectPaging(loginUser.getEmail(),cri);
+
+		memberVO loginUser = (memberVO)ses.getAttribute("loginUser");
+		int totalCount=boardService.getTotalCount(cri , loginUser.getEmail());
+		List<boardVO> blist = boardService.selectPaging(loginUser.getEmail(),cri);
+		PagingVO paging = new PagingVO(totalCount, cri);
 		
 		m.addAttribute("boardList",blist);
 		m.addAttribute("totalCount",totalCount);
 		m.addAttribute("paging",paging);
 		m.addAttribute("email",loginUser.getEmail());
 		
-		//System.out.println(loginUser.getEmail());
-	//}
+		log.info(loginUser.getEmail());
+		log.info(blist);
+		
 		return "main";
 		
 	}

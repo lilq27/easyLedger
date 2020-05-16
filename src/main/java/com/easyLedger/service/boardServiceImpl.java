@@ -31,17 +31,16 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public List<boardVO> selectPaging(String string, CriteriaVO cri) {
-		memberVO member = null;
+	public List<boardVO> selectPaging(String email , CriteriaVO cri) {
 		// TODO Auto-generated method stub
-		return elMapper.selectPaging(cri, member);
+		return elMapper.selectPaging(email, cri);
 	}
 
 
 	@Override
-	public int getTotalCount(CriteriaVO cri) {
+	public int getTotalCount(CriteriaVO cri , String email) {
 		// TODO Auto-generated method stub
-		return elMapper.getTotalCount(cri);
+		return elMapper.getTotalCount(cri , email);
 	}
 
 	@Override

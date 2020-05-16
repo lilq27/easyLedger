@@ -11,12 +11,17 @@
   
   	<insert id="registration" parameterType="board">
   		<selectKey keyProperty="name_id" order="BEFORE" resultType="int">
-			select bno.nextval from dual
+			SELECT bno.NEXTVAL FROM DUAL
 		</selectKey>
-  		insert into board values(#{bno},
-  		(select email from member where email=#{email}),
-  		#{name:VARCHAR},#{grade:VARCHAR},#{paid:VARCHAR},
-  		#{depositDate:VARCHAR},#{paymentOption:VARCHAR},#{memo:VARCHAR})
+  		INSERT INTO board VALUES(
+  					#{bno},
+  					(SELECT email FROM member WHERE email=#{email}),
+  					#{name:VARCHAR},
+  					#{grade:VARCHAR},
+  					#{paid:VARCHAR},
+  					#{depositDate:VARCHAR},
+  					#{paymentOption:VARCHAR},
+  					#{memo:VARCHAR})
   	</insert> 
 
 	<sql id="findWhere">
@@ -43,22 +48,29 @@
 		</if>
 	</sql>
 	
-	<select id="selectPaging" resultType="board" parameterType="page">
-	select *from(
-	select rownum rn, a.* from
-	(select * from board 
-	<include refid="findWhere"/>
-	order by bno desc) a
+	<select id="selectPaging" parameterType="page" resultType="board">
+	SELECT  * 
+	  FROM  (
+	SELECT  ROWNUM rn, a. * 
+	  FROM  ( SELECT * FROM board 
+	<!-- <include refid="findWhere"/> -->
+		    ORDER BY bno desc ) a
 	<![CDATA[
-	where rownum <=#{pageNum} * #{amount}
-	and member_email=#{email}
-	)
-	where rn > (#{pageNum}-1) * #{amount}
+	 WHERE  ROWNUM < = #{pageNum} * #{amount}
+	   AND  member_email=#{email}
+			)
+	 WHERE rn > (#{pageNum}-1) * #{amount}
 	]]>
 	</select>
 	
-	<select id="getTotalCount" resultType="int">
-		select count(member_email) from board 
+	<select id="getTotalCount" parameterType="string" resultType="int">
+		select COUNT (member_email)
+		  FROM
+	    (
+	    SELECT  member_email
+		  FROM  board 
+		 WHERE  member_email = #{member_email}
+		 )		 
 		<include refid="findWhere"/>
 	</select>
 	

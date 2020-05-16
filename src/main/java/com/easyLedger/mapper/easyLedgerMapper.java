@@ -15,12 +15,9 @@ public interface easyLedgerMapper {
 	
 	int registration(boardVO board);
 	
-	List<boardVO> selectPaging(
-			@Param("cri") CriteriaVO cri,
-			@Param("email") memberVO member		
-			);
+	List<boardVO> selectPaging(String email , CriteriaVO cri);
 
-	int getTotalCount(CriteriaVO cri);
+	int getTotalCount(CriteriaVO cri , String email);
 
 	boardVO getMemberEmail(String member_eamil);
 	
