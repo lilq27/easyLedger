@@ -7,8 +7,8 @@ public class CriteriaVO {
 	
 	private String findType;
 	private String keyWord;
-	
-	
+	private String email;
+
 	public CriteriaVO() {
 		this(1,10);
 		
@@ -55,6 +55,14 @@ public class CriteriaVO {
 
 	public void setKeyWord(String keyWord) {
 		this.keyWord = keyWord;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 

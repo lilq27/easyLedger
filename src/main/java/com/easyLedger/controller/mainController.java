@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.easyLedger.domain.CriteriaVO;
+import com.easyLedger.domain.MemberVO;
 import com.easyLedger.domain.PagingVO;
 import com.easyLedger.domain.boardVO;
-import com.easyLedger.domain.memberVO;
 import com.easyLedger.service.NotUserException;
 import com.easyLedger.service.boardService;
 
@@ -43,16 +42,20 @@ public class mainController {
 	@RequestMapping("/main")
 	/**mainController.paging*/
 	public String paging(Model m,@ModelAttribute CriteriaVO cri,
-			/*HttpServletRequest req*/
+			MemberVO memberVO,/*HttpServletRequest req*/
 			HttpSession ses){
 
-		memberVO loginUser = (memberVO)ses.getAttribute("loginUser");
-		int totalCount=boardService.getTotalCount(cri , loginUser.getEmail());
-		List<boardVO> blist = boardService.selectPaging(loginUser.getEmail(),cri);
+		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
+		memberVO.setEmail(loginUser.getEmail());
+		cri.setEmail(loginUser.getEmail());
+		List<boardVO> blist = boardService.selectPaging(cri);
+		int totalCount = boardService.getTotalCount(memberVO.getEmail());
 		PagingVO paging = new PagingVO(totalCount, cri);
 		
 		m.addAttribute("boardList",blist);
+		System.out.println("blist"+blist);
 		m.addAttribute("totalCount",totalCount);
+		System.out.println("totalCount"+totalCount);
 		m.addAttribute("paging",paging);
 		m.addAttribute("email",loginUser.getEmail());
 		
@@ -121,7 +124,7 @@ public class mainController {
 	}
 	
 	@PostMapping("/signup")
-	public String memberRegist(memberVO member, Model m) {
+	public String memberRegist(MemberVO member, Model m) {
 		
 		int n=boardService.memberRegist(member);
 		
@@ -159,7 +162,7 @@ public class mainController {
 		if(email.trim().isEmpty()||pwd.trim().isEmpty()) {
 			return "redirect:/";
 		}
-		memberVO loginUser=boardService.loginCheck(email, pwd);
+		MemberVO loginUser=boardService.loginCheck(email, pwd);
 		if(loginUser!=null) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);
@@ -171,7 +174,9 @@ public class mainController {
 	
 	@RequestMapping("logout")
 	public String logout(HttpSession ses) {
-		ses.invalidate(); 
+		if(ses.getAttribute("loginUser") != null) {
+			ses.invalidate(); 
+		}
 		return "redirect:/";
 	}
 	

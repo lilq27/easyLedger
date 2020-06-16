@@ -7,8 +7,8 @@
   		<typeAliases>
   			<typeAlias type="com.easyLedger.domain.boardVO" alias="board"/>
   			<typeAlias type="com.easyLedger.domain.PagingVO" alias="page"/>
-  			<typeAlias type="com.easyLedger.domain.CriteriaVO" alias="criteria"/>
-  			<typeAlias type="com.easyLedger.domain.memberVO" alias="member"/>
+  			<typeAlias type="com.easyLedger.domain.CriteriaVO" alias="cri"/>
+  			<typeAlias type="com.easyLedger.domain.MemberVO" alias="member"/>
   		</typeAliases>
   		<mappers>
   			<mapper resource="mapper/easyLedgerMapper.xml"/>

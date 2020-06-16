@@ -2,11 +2,9 @@ package com.easyLedger.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.boardVO;
-import com.easyLedger.domain.memberVO;
+import com.easyLedger.domain.MemberVO;
 import com.easyLedger.service.NotUserException;
 
 public interface easyLedgerMapper {
@@ -15,9 +13,9 @@ public interface easyLedgerMapper {
 	
 	int registration(boardVO board);
 	
-	List<boardVO> selectPaging(String email , CriteriaVO cri);
+	List<boardVO> selectPaging(CriteriaVO cri);
 
-	int getTotalCount(CriteriaVO cri , String email);
+	int getTotalCount(String email);
 
 	boardVO getMemberEmail(String member_eamil);
 	
@@ -27,9 +25,9 @@ public interface easyLedgerMapper {
 	
 	int emailCheck(String email);
 	
-	int memberRegist(memberVO member);
+	int memberRegist(MemberVO member);
 
-	memberVO finduserByemail(String email);
+	MemberVO finduserByemail(String email);
 	
-	memberVO loginCheck(String email, String pwd) throws NotUserException;
+	MemberVO loginCheck(String email, String pwd) throws NotUserException;
 }

@@ -1,13 +1,10 @@
 package com.easyLedger.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.easyLedger.domain.CriteriaVO;
-import com.easyLedger.domain.PagingVO;
+import com.easyLedger.domain.MemberVO;
 import com.easyLedger.domain.boardVO;
-import com.easyLedger.domain.memberVO;
 
 public interface boardService {
 	
@@ -15,9 +12,9 @@ public interface boardService {
 
 	int registration(boardVO board);
 	
-	List<boardVO> selectPaging(String email,CriteriaVO cri);
+	List<boardVO> selectPaging(CriteriaVO cri);
 	
-	int getTotalCount(CriteriaVO cri , String email);
+	int getTotalCount(String email);
 	
 	boardVO getMemberEmail(String member_eamil);
 	
@@ -27,11 +24,12 @@ public interface boardService {
 	
 	int emailCheck(String email);
 	
-	int memberRegist(memberVO member);
+	int memberRegist(MemberVO member);
 	
-	memberVO finduserByemail(String email);
+	MemberVO finduserByemail(String email);
 	
-	memberVO loginCheck(String email, String pwd) throws NotUserException;
+	MemberVO loginCheck(String email, String pwd) throws NotUserException;
+
 	
 	
 }

@@ -25,7 +25,7 @@
   	</insert> 
 
 	<sql id="findWhere">
-		<if test="findType != null and keyWord !=''">
+		<if test="findType != null and keyWord != ''">
 		<where>
 			<if test="findType==1">	
 				(name like '%'||#{keyWord}||'%' or grade like '%'||#{keyWord}||'%'
@@ -48,30 +48,26 @@
 		</if>
 	</sql>
 	
-	<select id="selectPaging" parameterType="page" resultType="board">
+	<select id="selectPaging" parameterType="cri" resultType="board">
 	SELECT  * 
 	  FROM  (
 	SELECT  ROWNUM rn, a. * 
-	  FROM  ( SELECT * FROM board 
-	<!-- <include refid="findWhere"/> -->
+	  FROM  ( 
+	  		SELECT * FROM board 
+	<include refid="findWhere"/>
 		    ORDER BY bno desc ) a
 	<![CDATA[
-	 WHERE  ROWNUM < = #{pageNum} * #{amount}
-	   AND  member_email=#{email}
+	 WHERE  member_email = #{email}
+	   AND  ROWNUM < = #{pageNum} * #{amount}
 			)
 	 WHERE rn > (#{pageNum}-1) * #{amount}
 	]]>
 	</select>
 	
 	<select id="getTotalCount" parameterType="string" resultType="int">
-		select COUNT (member_email)
-		  FROM
-	    (
-	    SELECT  member_email
+	    SELECT  COUNT(member_email)
 		  FROM  board 
-		 WHERE  member_email = #{member_email}
-		 )		 
-		<include refid="findWhere"/>
+		 WHERE  member_email = #{email:VARCHAR}
 	</select>
 	
 	<select id="getNameId" resultType="board" parameterType="String">
