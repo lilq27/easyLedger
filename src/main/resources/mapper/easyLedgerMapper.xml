@@ -73,20 +73,20 @@
 	</select>
 	
 	<select id="getBno" parameterType="string" resultType="board">
-		SELECT  name, grade, paid, depositdate, paymentoption, memo 
+		SELECT  bno, name, grade, paid, depositdate, paymentoption, memo 
 		  FROM  board
 		 WHERE  bno = #{bno}
 	</select>
 	
 	<update id="modify" parameterType="board">
 		UPDATE  board
-		   SET  name=#{name:VARCHAR},
-		        grade=#{grade:VARCHAR},
-		        paid=#{paid:VARCHAR},
-		        depositDate=#{depositDate:VARCHAR},
-				paymentOption=#{paymentOption:VARCHAR},
-				memo=#{memo:VARCHAR}
-		 WHERE  bno=#{bno}
+		   SET  name = #{name:VARCHAR},
+		        grade = #{grade:VARCHAR},
+		        paid = #{paid:VARCHAR},
+		        depositDate = #{depositDate:VARCHAR},
+				paymentOption = #{paymentOption:VARCHAR},
+				memo = #{memo:VARCHAR}
+		 WHERE  bno = #{bno:INTEGER}
 	</update>
 	
 	<delete id="delete" parameterType="string">

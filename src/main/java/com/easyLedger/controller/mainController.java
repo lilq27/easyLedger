@@ -99,23 +99,25 @@ public class mainController {
 	}
 	
 	@PostMapping("/modify")
-	public String modification(@RequestParam(defaultValue = "")String mode, @RequestParam(defaultValue = "")String mode2, 
-			boardVO board, @RequestParam(defaultValue = "0") String bno, Model m) {
+	public String modification(@RequestParam(defaultValue = "")String mode, 
+							   @RequestParam(defaultValue = "")String mode2, 
+							   boardVO board, @RequestParam(defaultValue = "0") String bno, 
+							   Model m) {
 		try {
 		
-		int n=0;
-		String msg="";
+		int n = 0;
+		String msg = "";
 		if(mode.equals("mdf")) {
-			n=this.boardService.modify(board);
-			msg="수정";
+			n = this.boardService.modify(board);
+			msg = "수정";
 		}else if(mode2.equals("dlt")) {
-			n=this.boardService.delete(bno);
-			msg="삭제";
+			n = this.boardService.delete(bno);
+			msg = "삭제";
 		}
 		
 				
-		msg+=(n>0)?" 성공":" 실패";
-		String loc=(n>0)?"/easyLedger/modify?bno="+bno:"javascript:history.back()";
+		msg += (n > 0) ? " 성공" :" 실패";
+		String loc=(n > 0) ? "/easyLedger/modify?bno="+bno : "javascript:history.back()";
 				
 		m.addAttribute("msg",msg);
 		m.addAttribute("loc",loc);

@@ -23,7 +23,6 @@
 			if(confirm("정말 삭제 하시겠습니까?")==true){
 			$("#modify").submit();
 			}else return false;
-			window.close();
 			alert("삭제 되었습니다.");
 		});
 
