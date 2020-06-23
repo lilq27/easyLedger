@@ -6,22 +6,24 @@
   <mapper namespace="com.easyLedger.mapper.easyLedgerMapper">
   
   	<select id="selectAll" resultType="board">
-  		select *from board
+  		SELECT *
+  		  FROM board
   	</select>
   
   	<insert id="registration" parameterType="board">
-  		<selectKey keyProperty="name_id" order="BEFORE" resultType="int">
+  		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
 			SELECT bno.NEXTVAL FROM DUAL
 		</selectKey>
   		INSERT INTO board VALUES(
   					#{bno},
-  					(SELECT email FROM member WHERE email=#{email}),
+  					#{member_email:VARCHAR},
   					#{name:VARCHAR},
   					#{grade:VARCHAR},
   					#{paid:VARCHAR},
   					#{depositDate:VARCHAR},
   					#{paymentOption:VARCHAR},
-  					#{memo:VARCHAR})
+  					#{memo:VARCHAR}
+  					)
   	</insert> 
 
 	<sql id="findWhere">
@@ -70,17 +72,27 @@
 		 WHERE  member_email = #{email:VARCHAR}
 	</select>
 	
-	<select id="getNameId" resultType="board" parameterType="String">
-		select * from board where member_email=#{member_email}
+	<select id="getBno" parameterType="string" resultType="board">
+		SELECT  name, grade, paid, depositdate, paymentoption, memo 
+		  FROM  board
+		 WHERE  bno = #{bno}
 	</select>
 	
 	<update id="modify" parameterType="board">
-		update board set name=#{name}, grade=#{grade}, paid=#{paid}, depositDate=#{depositDate},
-		paymentOption=#{paymentOption}, memo=#{memo} where name_id=#{name_id}
+		UPDATE  board
+		   SET  name=#{name:VARCHAR},
+		        grade=#{grade:VARCHAR},
+		        paid=#{paid:VARCHAR},
+		        depositDate=#{depositDate:VARCHAR},
+				paymentOption=#{paymentOption:VARCHAR},
+				memo=#{memo:VARCHAR}
+		 WHERE  bno=#{bno}
 	</update>
 	
-	<delete id="delete" parameterType="String">
-		delete from board where member_email=#{member_email}
+	<delete id="delete" parameterType="string">
+		DELETE 
+		  FROM  board 
+		 WHERE  bno = #{bno}
 	</delete>
 	
 	<insert id="memberRegist" parameterType="member">

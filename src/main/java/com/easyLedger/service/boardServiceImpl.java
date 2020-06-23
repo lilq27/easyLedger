@@ -40,15 +40,15 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public boardVO getMemberEmail(String member_eamil) {
+	public boardVO getBno(String bno) {
 		// TODO Auto-generated method stub
-		return elMapper.getMemberEmail(member_eamil);
+		return elMapper.getBno(bno);
 	}
 
 	@Override
-	public int delete(String member_eamil) {
+	public int delete(String bno) {
 		// TODO Auto-generated method stub
-		return elMapper.delete(member_eamil);
+		return elMapper.delete(bno);
 	}
 
 	@Override

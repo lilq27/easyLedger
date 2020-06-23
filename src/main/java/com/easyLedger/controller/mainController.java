@@ -37,19 +37,23 @@ public class mainController {
 	public String registration() {
 		return "registration";
 	}
+	public void sessionEmail(HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
+		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
+		memberVo.setEmail(loginUser.getEmail());
+		cri.setEmail(loginUser.getEmail());
+	}
 
 
 	@RequestMapping("/main")
 	/**mainController.paging*/
 	public String paging(Model m,@ModelAttribute CriteriaVO cri,
-			MemberVO memberVO,/*HttpServletRequest req*/
+			MemberVO memberVo,/*HttpServletRequest req*/
 			HttpSession ses){
 
-		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
-		memberVO.setEmail(loginUser.getEmail());
-		cri.setEmail(loginUser.getEmail());
+		
+		sessionEmail(ses, memberVo, cri);
 		List<boardVO> blist = boardService.selectPaging(cri);
-		int totalCount = boardService.getTotalCount(memberVO.getEmail());
+		int totalCount = boardService.getTotalCount(memberVo.getEmail());
 		PagingVO paging = new PagingVO(totalCount, cri);
 		
 		m.addAttribute("boardList",blist);
@@ -57,9 +61,9 @@ public class mainController {
 		m.addAttribute("totalCount",totalCount);
 		System.out.println("totalCount"+totalCount);
 		m.addAttribute("paging",paging);
-		m.addAttribute("email",loginUser.getEmail());
+		m.addAttribute("email",cri.getEmail());
 		
-		log.info(loginUser.getEmail());
+		log.info("cri.getEmail() "+cri.getEmail());
 		log.info(blist);
 		
 		return "main";
@@ -67,32 +71,36 @@ public class mainController {
 	}
 	
 	@PostMapping("/regist")
-	public String regist(@ModelAttribute boardVO board,Model m) {
+	public String regist(@ModelAttribute boardVO board, Model m, 
+			HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
 		
-		int n=this.boardService.registration(board);
+		sessionEmail(ses, memberVo, cri);
+		board.setMember_email(memberVo.getEmail());
+		int n = this.boardService.registration(board);
 		
-		String msg=(n>0)?"등록 성공":"등록 실패";
-		String loc=(n>0)?"/easyLedger/regist":"javascript:history.back()";
-		
+		String msg = (n > 0) ? "등록 성공":"등록 실패";
+		String loc = (n > 0) ? "javascript:opener.parent.location.reload(); "
+								+ "window.close();" : "javascript:history.back()";
+
 		m.addAttribute("msg",msg);
 		m.addAttribute("loc",loc);
-
-		
+	
 		return "message";
 	}
 	
 	@GetMapping("/modify")
-	public String get(@RequestParam(defaultValue = "0") String member_email,Model m) {
+	public String get(@RequestParam(defaultValue = "0") String bno,
+						Model m) {
 		
-		boardVO getNameId=boardService.getMemberEmail(member_email);		
-		m.addAttribute("board", getNameId );
+		boardVO boardVo = boardService.getBno(bno);
+		m.addAttribute("board", boardVo);
 
 		return "modify";
 	}
 	
 	@PostMapping("/modify")
-	public String modification(@RequestParam(defaultValue = "")String mode,@RequestParam(defaultValue = "")String mode2, 
-			boardVO board, @RequestParam(defaultValue = "0") String member_email, Model m) {
+	public String modification(@RequestParam(defaultValue = "")String mode, @RequestParam(defaultValue = "")String mode2, 
+			boardVO board, @RequestParam(defaultValue = "0") String bno, Model m) {
 		try {
 		
 		int n=0;
@@ -101,13 +109,13 @@ public class mainController {
 			n=this.boardService.modify(board);
 			msg="수정";
 		}else if(mode2.equals("dlt")) {
-			n=this.boardService.delete(member_email);
+			n=this.boardService.delete(bno);
 			msg="삭제";
 		}
 		
 				
 		msg+=(n>0)?" 성공":" 실패";
-		String loc=(n>0)?"/easyLedger/modify?name_id="+member_email:"javascript:history.back()";
+		String loc=(n>0)?"/easyLedger/modify?bno="+bno:"javascript:history.back()";
 				
 		m.addAttribute("msg",msg);
 		m.addAttribute("loc",loc);

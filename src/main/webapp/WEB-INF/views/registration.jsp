@@ -17,7 +17,7 @@
     <div class="container">
         <h2>Easy Ledger</h2>
         <br>
-        <form action="regist" method="post" >
+        <form id="regist" action="regist" method="post" >
             <div class="form-group">
                 <label for="usr">이름:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -45,11 +45,12 @@
             <div align="right">
                 <button class="btn btn-success" id="rgt" type="submit">등록</button>
         	</div>
-        	
-	
-	</form>
+		</form>
     </div>
-
 </body>
+<script type="text/javascript">
 
+		
+	
+</script>
 </html>

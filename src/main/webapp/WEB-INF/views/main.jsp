@@ -44,7 +44,7 @@ $(document).ready(function(){
 		var no = td.eq(0).text();
 		//alert(no);
 		/*$('#member_email').get(0).click(); */
- 		window.open('modify?member_email='+no+'','등록','width=500,height=670');
+ 		window.open('modify?bno='+no+'','등록','width=500,height=670');
  		
 		$("#tableClick tr>th").dblclick(function(){
 			return false;
@@ -107,7 +107,7 @@ $(document).ready(function(){
           </thead>
           <tbody>
             <tr>      
-              <td style="display:none">${select.member_email}</td>  
+              <td style="display:none">${select.bno}</td>  
               <td>${select.name}</td>      
               <td>${select.grade}</td>
               <td>${select.paid}</td>

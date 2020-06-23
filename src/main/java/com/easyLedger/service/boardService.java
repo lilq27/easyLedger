@@ -16,9 +16,9 @@ public interface boardService {
 	
 	int getTotalCount(String email);
 	
-	boardVO getMemberEmail(String member_eamil);
+	boardVO getBno(String bno);
 	
-	int delete(String member_eamil);
+	int delete(String bno);
 	
 	int modify(boardVO board);
 	

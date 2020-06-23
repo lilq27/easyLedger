@@ -26,7 +26,7 @@
 			window.close();
 			alert("삭제 되었습니다.");
 		});
-			
+
 	});
 </script>
 
@@ -36,7 +36,7 @@
         <br>
         <form id="modify" name="modify" action="modify" method="post" >
         	<div class="form-group">
-                <input type="hidden" class="form-control" id="name_id" name="name_id" value="${board.name_id }" readonly="readonly">
+                <input type="hidden" class="form-control" id="bno" name="bno" value="${board.bno }" readonly="readonly">
             </div>
             <div class="form-group">
                 <label for="usr">이름:</label>
@@ -66,11 +66,7 @@
                 <button class="btn btn-success" id="modifybt" name="mode" value="mdf">수정</button>
                 <button class="btn btn-success" id="deletebt" name="mode2" value="dlt">삭제</button>
         	</div> 
-        	
-	
-	</form>
+		</form>
     </div>
-
 </body>
-
 </html>
