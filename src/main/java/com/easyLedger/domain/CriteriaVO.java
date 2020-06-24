@@ -10,7 +10,7 @@ public class CriteriaVO {
 	private String email;
 
 	public CriteriaVO() {
-		this(1,10);
+		this(1,5);
 		
 	}
 

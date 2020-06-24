@@ -15,7 +15,7 @@ public interface easyLedgerMapper {
 	
 	List<boardVO> selectPaging(CriteriaVO cri);
 
-	int getTotalCount(String email);
+	int getTotalCount(CriteriaVO cri);
 
 	boardVO getBno(String bno);
 	

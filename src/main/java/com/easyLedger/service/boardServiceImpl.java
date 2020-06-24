@@ -34,9 +34,9 @@ public class boardServiceImpl implements boardService {
 
 
 	@Override
-	public int getTotalCount(String email) {
+	public int getTotalCount(CriteriaVO cri) {
 	
-		return elMapper.getTotalCount(email);
+		return elMapper.getTotalCount(cri);
 	}
 
 	@Override

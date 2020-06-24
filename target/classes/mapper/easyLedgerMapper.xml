@@ -66,10 +66,16 @@
 	]]>
 	</select>
 	
-	<select id="getTotalCount" parameterType="string" resultType="int">
+	<select id="getTotalCount" parameterType="cri" resultType="int">
 	    SELECT  COUNT(member_email)
 		  FROM  board 
-		 WHERE  member_email = #{email:VARCHAR}
+		  <if test="keyWord != null">
+		 	<include refid="findWhere"/>
+		    AND member_email = #{email:VARCHAR}
+		  </if>
+		  <if test="keyWord == null">
+		  	WHERE member_email = #{email:VARCHAR}
+		  </if>
 	</select>
 	
 	<select id="getBno" parameterType="string" resultType="board">

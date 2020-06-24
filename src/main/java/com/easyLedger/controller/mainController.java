@@ -53,9 +53,8 @@ public class mainController {
 		
 		sessionEmail(ses, memberVo, cri);
 		List<boardVO> blist = boardService.selectPaging(cri);
-		int totalCount = boardService.getTotalCount(memberVo.getEmail());
+		int totalCount = boardService.getTotalCount(cri);
 		PagingVO paging = new PagingVO(totalCount, cri);
-		
 		m.addAttribute("boardList",blist);
 		System.out.println("blist"+blist);
 		m.addAttribute("totalCount",totalCount);
@@ -117,7 +116,8 @@ public class mainController {
 		
 				
 		msg += (n > 0) ? " 성공" :" 실패";
-		String loc=(n > 0) ? "/easyLedger/modify?bno="+bno : "javascript:history.back()";
+		String loc=(n > 0) ? "javascript:opener.parent.location.reload(); "
+				+ "window.close();" : "javascript:history.back()";
 				
 		m.addAttribute("msg",msg);
 		m.addAttribute("loc",loc);
