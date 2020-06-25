@@ -95,7 +95,7 @@ $(document).ready(function(){
         <h2>Easy Ledger</h2>            
         <table class="table table-hover" id="tableClick">
           <thead>
-         <c:forEach var="select" items="${boardList}">  	
+         <c:forEach var="select" items="${boardList}">	
             <tr>
               <th>이름</th>
               <th>학년</th>
@@ -126,8 +126,8 @@ $(document).ready(function(){
 			<a href="${paging.startPage -1 }">Previous</a></li>
 			</c:if>
 			<c:forEach var="num" begin="${paging.startPage }" end="${paging.endPage }">
-			<li class="paginate_button ${paging.cri.pageNum == num ? "active":"" }">
-			<a href="${num }">${num}</a></li>
+			<li class="paginate_button ${paging.cri.pageNum == num ? 'active' : '' }">
+			<a href="${num}">${num}</a></li>
 			</c:forEach>
 			<c:if test="${paging.next }">
 			<li class="paginate_button next">

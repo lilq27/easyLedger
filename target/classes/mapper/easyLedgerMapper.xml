@@ -69,7 +69,7 @@
 	<select id="getTotalCount" parameterType="cri" resultType="int">
 	    SELECT  COUNT(member_email)
 		  FROM  board 
-		  <if test="keyWord != null">
+		  <if test="keyWord != '' and keyWord != null">
 		 	<include refid="findWhere"/>
 		    AND member_email = #{email:VARCHAR}
 		  </if>

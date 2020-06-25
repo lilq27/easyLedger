@@ -176,6 +176,7 @@ public class mainController {
 		if(loginUser!=null) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);
+			ses.setMaxInactiveInterval(-1);
 			
 		}
 		
