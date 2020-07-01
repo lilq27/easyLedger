@@ -4,23 +4,23 @@ import java.util.List;
 
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.MemberVO;
-import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.BoardVO;
 
 public interface boardService {
 	
-	public List<boardVO> selectAll();
+	public List<BoardVO> selectAll();
 
-	int registration(boardVO board);
+	int registration(BoardVO board);
 	
-	List<boardVO> selectPaging(CriteriaVO cri);
+	List<BoardVO> selectPaging(CriteriaVO cri);
 	
 	int getTotalCount(CriteriaVO cri);
 	
-	boardVO getBno(String bno);
+	BoardVO getBno(String bno);
 	
 	int delete(String bno);
 	
-	int modify(boardVO board);
+	int modify(BoardVO board);
 	
 	int emailCheck(String email);
 	

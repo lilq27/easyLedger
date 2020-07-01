@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.MemberVO;
-import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.BoardVO;
 import com.easyLedger.mapper.easyLedgerMapper;
 @Service(value="boardSI")
 public class boardServiceImpl implements boardService {
@@ -17,17 +17,17 @@ public class boardServiceImpl implements boardService {
 	private easyLedgerMapper elMapper;
 	
 	@Override
-	public List<boardVO> selectAll() {
+	public List<BoardVO> selectAll() {
 		return this.elMapper.selectAll();
 	}
 	
 	@Override
-	public int registration(boardVO board) {
+	public int registration(BoardVO board) {
 		return this.elMapper.registration(board);
 	}
 
 	@Override
-	public List<boardVO> selectPaging(CriteriaVO cri) {
+	public List<BoardVO> selectPaging(CriteriaVO cri) {
 		// TODO Auto-generated method stub
 		return elMapper.selectPaging(cri);
 	}
@@ -40,7 +40,7 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public boardVO getBno(String bno) {
+	public BoardVO getBno(String bno) {
 		// TODO Auto-generated method stub
 		return elMapper.getBno(bno);
 	}
@@ -52,7 +52,7 @@ public class boardServiceImpl implements boardService {
 	}
 
 	@Override
-	public int modify(boardVO board) {
+	public int modify(BoardVO board) {
 		// TODO Auto-generated method stub
 		return elMapper.modify(board);
 	}

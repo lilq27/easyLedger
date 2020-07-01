@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.MemberVO;
 import com.easyLedger.domain.PagingVO;
-import com.easyLedger.domain.boardVO;
+import com.easyLedger.domain.BoardVO;
 import com.easyLedger.service.NotUserException;
 import com.easyLedger.service.boardService;
 
@@ -37,40 +37,45 @@ public class mainController {
 	public String registration() {
 		return "registration";
 	}
+	
 	public void sessionEmail(HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
 		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
-		memberVo.setEmail(loginUser.getEmail());
-		cri.setEmail(loginUser.getEmail());
+		if(loginUser.getEmail() != null && !loginUser.getEmail().isEmpty()) {
+			memberVo.setEmail(loginUser.getEmail());
+			cri.setEmail(loginUser.getEmail());
+		}
 	}
-
 
 	@RequestMapping("/main")
 	/**mainController.paging*/
 	public String paging(Model m,@ModelAttribute CriteriaVO cri,
-			MemberVO memberVo,/*HttpServletRequest req*/
-			HttpSession ses){
+			MemberVO memberVo, HttpSession ses){
 
-		
 		sessionEmail(ses, memberVo, cri);
-		List<boardVO> blist = boardService.selectPaging(cri);
-		int totalCount = boardService.getTotalCount(cri);
-		PagingVO paging = new PagingVO(totalCount, cri);
-		m.addAttribute("boardList",blist);
-		System.out.println("blist"+blist);
-		m.addAttribute("totalCount",totalCount);
-		System.out.println("totalCount"+totalCount);
-		m.addAttribute("paging",paging);
-		m.addAttribute("email",cri.getEmail());
 		
-		log.info("cri.getEmail() "+cri.getEmail());
-		log.info(blist);
+		if(cri.getEmail() != null && !cri.getEmail().isEmpty()) {
+			List<BoardVO> blist = boardService.selectPaging(cri);
+			int totalCount = boardService.getTotalCount(cri);
+			PagingVO paging = new PagingVO(totalCount, cri);
+			
+			m.addAttribute("boardList",blist);
+			m.addAttribute("totalCount",totalCount);
+			m.addAttribute("paging",paging);
+			m.addAttribute("email",cri.getEmail());
+			
+			log.info("cri.getEmail(): "+cri.getEmail());
+			log.info("blist: "+blist);
+			log.info("totalCount: "+totalCount);
+			
+			return "main";
 		
-		return "main";
+		}
 		
+		return "asd";
 	}
 	
 	@PostMapping("/regist")
-	public String regist(@ModelAttribute boardVO board, Model m, 
+	public String regist(@ModelAttribute BoardVO board, Model m, 
 			HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
 		
 		sessionEmail(ses, memberVo, cri);
@@ -91,7 +96,7 @@ public class mainController {
 	public String get(@RequestParam(defaultValue = "0") String bno,
 						Model m) {
 		
-		boardVO boardVo = boardService.getBno(bno);
+		BoardVO boardVo = boardService.getBno(bno);
 		m.addAttribute("board", boardVo);
 
 		return "modify";
@@ -100,28 +105,26 @@ public class mainController {
 	@PostMapping("/modify")
 	public String modification(@RequestParam(defaultValue = "")String mode, 
 							   @RequestParam(defaultValue = "")String mode2, 
-							   boardVO board, @RequestParam(defaultValue = "0") String bno, 
+							   BoardVO board, @RequestParam(defaultValue = "0") String bno, 
 							   Model m) {
-		try {
-		
-		int n = 0;
-		String msg = "";
-		if(mode.equals("mdf")) {
-			n = this.boardService.modify(board);
-			msg = "수정";
-		}else if(mode2.equals("dlt")) {
-			n = this.boardService.delete(bno);
-			msg = "삭제";
-		}
-		
-				
-		msg += (n > 0) ? " 성공" :" 실패";
-		String loc=(n > 0) ? "javascript:opener.parent.location.reload(); "
-				+ "window.close();" : "javascript:history.back()";
-				
-		m.addAttribute("msg",msg);
-		m.addAttribute("loc",loc);
-		}catch (Exception e) {
+		try {	
+			int n = 0;
+			String msg = "";
+			if(mode.equals("mdf")) {
+				n = this.boardService.modify(board);
+				msg = "수정";
+			}else if(mode2.equals("dlt")) {
+				n = this.boardService.delete(bno);
+				msg = "삭제";
+			}
+			
+			msg += (n > 0) ? " 성공" :" 실패";
+			String loc=(n > 0) ? "javascript:opener.parent.location.reload(); "
+					+ "window.close();" : "javascript:history.back()";
+					
+			m.addAttribute("msg",msg);
+			m.addAttribute("loc",loc);
+		} catch(Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -153,8 +156,7 @@ public class mainController {
 		int n=boardService.emailCheck(email);
 		System.out.println(email);
 		
-		return n;
-		
+		return n;	
 	}
 	
 	@GetMapping("/signin")
@@ -173,11 +175,11 @@ public class mainController {
 			return "redirect:/";
 		}
 		MemberVO loginUser=boardService.loginCheck(email, pwd);
+		
 		if(loginUser!=null) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);
-			ses.setMaxInactiveInterval(-1);
-			
+			ses.setMaxInactiveInterval(-1);	
 		}
 		
 		return "redirect:main";

@@ -5,7 +5,7 @@
   
   <configuration>
   		<typeAliases>
-  			<typeAlias type="com.easyLedger.domain.boardVO" alias="board"/>
+  			<typeAlias type="com.easyLedger.domain.BoardVO" alias="board"/>
   			<typeAlias type="com.easyLedger.domain.PagingVO" alias="page"/>
   			<typeAlias type="com.easyLedger.domain.CriteriaVO" alias="cri"/>
   			<typeAlias type="com.easyLedger.domain.MemberVO" alias="member"/>

@@ -30,21 +30,26 @@
 		<if test="findType != null and keyWord != ''">
 		<where>
 			<if test="findType==1">	
-				(name like '%'||#{keyWord}||'%' or grade like '%'||#{keyWord}||'%'
-				 or depositdate like '%'||#{keyWord}||'%' or paymentoption like '%'||#{keyWord}||'%'
-				 or paid like '%'||#{keyWord}||'%' or memo like '%'||#{keyWord}||'%')
+				(
+				name LIKE '%'||#{keyWord}||'%' 
+				OR grade LIKE '%'||#{keyWord}||'%'
+				OR depositdate LIKE '%'||#{keyWord}||'%'
+				OR paymentoption LIKE '%'||#{keyWord}||'%'
+				OR paid LIKE '%'||#{keyWord}||'%' 
+				OR memo LIKE '%'||#{keyWord}||'%'
+				)
 			</if>
 			<if test="findType==2">
-				name like '%'||#{keyWord}||'%'
+				name LIKE '%'||#{keyWord}||'%'
 			</if>
 			<if test="findType==3">
-				grade like '%'||#{keyWord}||'%'
+				grade LIKE '%'||#{keyWord}||'%'
 			</if>
 			<if test="findType==4">
-				depositdate like '%'||#{keyWord}||'%'
+				depositdate LIKE '%'||#{keyWord}||'%'
 			</if>
 			<if test="findType==5">
-				paymentoption like '%'||#{keyWord}||'%'
+				paymentoption LIKE '%'||#{keyWord}||'%'
 			</if>	
 		</where>
 		</if>
@@ -69,13 +74,15 @@
 	<select id="getTotalCount" parameterType="cri" resultType="int">
 	    SELECT  COUNT(member_email)
 		  FROM  board 
-		  <if test="keyWord != '' and keyWord != null">
-		 	<include refid="findWhere"/>
-		    AND member_email = #{email:VARCHAR}
-		  </if>
-		  <if test="keyWord == null">
-		  	WHERE member_email = #{email:VARCHAR}
-		  </if>
+		  <choose>
+			  <when test="keyWord != '' and keyWord != null">
+			 	<include refid="findWhere"/>
+			    AND member_email = #{email:VARCHAR}
+			  </when>
+			  <otherwise>
+			  	WHERE member_email = #{email:VARCHAR}
+			  </otherwise>
+		  </choose>
 	</select>
 	
 	<select id="getBno" parameterType="string" resultType="board">
@@ -102,15 +109,24 @@
 	</delete>
 	
 	<insert id="memberRegist" parameterType="member">
-		insert into member values(#{email:VARCHAR},#{pwd:VARCHAR},#{name:VARCHAR})
+		INSERT  INTO member 
+		VALUES (
+			    #{email:VARCHAR},
+			    #{pwd:VARCHAR},
+			    #{name:VARCHAR}
+	    )
 	</insert>
 	
-	<select id="emailCheck" parameterType="String" resultType="int">
-		select count(email) from member where email=#{email}
+	<select id="emailCheck" parameterType="string" resultType="int">
+		SELECT  COUNT(email) 
+		  FROM  member 
+		 WHERE  email=#{email}
 	</select>
 	
-	<select id="finduserByemail" parameterType="String" resultType="member">
-		select * from member where email=#{email}
+	<select id="finduserByemail" parameterType="string" resultType="member">
+		SELECT  * 
+		  FROM  member 
+		 WHERE  email=#{email}
 	</select>
 	
   </mapper> 

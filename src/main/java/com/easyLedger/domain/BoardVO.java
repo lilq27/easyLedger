@@ -1,12 +1,11 @@
 package com.easyLedger.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class boardVO implements Serializable {
+public class BoardVO implements Serializable {
 
 	private Integer bno;
 	private String member_email;
