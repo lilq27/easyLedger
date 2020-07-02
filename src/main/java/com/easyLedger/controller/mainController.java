@@ -40,7 +40,7 @@ public class mainController {
 	
 	public void sessionEmail(HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
 		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
-		if(loginUser.getEmail() != null && !loginUser.getEmail().isEmpty()) {
+		if(loginUser != null && !loginUser.toString().isEmpty()) {
 			memberVo.setEmail(loginUser.getEmail());
 			cri.setEmail(loginUser.getEmail());
 		}
