@@ -3,46 +3,42 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/top"/>
 <div class="container">
-<br>
-<h2 class="head">Easy Ledger</h2>
-<p><br>
-    <div class="head2">Sign in to Easy Ledger</div></p>
-    
-  <form id="loginForm" action="signin" method="post">
-    <div class="panel panel-default">
-    <div class="form-group" style="width: 350px; padding-left: 85px; padding-top: 30px;" >
-      <label for="usr">Email:</label>
-      <input type="email" class="form-control" name="email" id="email" >
-    </div>
-    <div class="form-group" style="width: 350px;  padding-left: 85px;">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" name="pwd" id="pwd">
-    </div>
-    <div style="padding-bottom: 20px;">
-      <button id="button" class="btn btn-success">Sign in</button>
-    </div>
+	<br>
+	<h2 class="head">Easy Ledger</h2>
+	<p><br>
+    	<div class="head2">Sign in to Easy Ledger</div>
+    </p>
+	<form id="loginForm" action="signin" method="post">
+    	<div class="panel panel-default">
+	    	<div class="form-group" style="width: 350px; padding-left: 85px; padding-top: 30px;">
+	      		<label for="usr">Email:</label>
+	      		<input type="email" class="form-control" name="email" id="email" >
+	    	</div>
+	    	<div class="form-group" style="width: 350px;  padding-left: 85px;">
+	      		<label for="pwd">Password:</label>
+	      		<input type="password" class="form-control" name="pwd" id="pwd">
+	    	</div>
+	    	<div style="padding-bottom: 20px;">
+	      		<button id="button" class="btn btn-success">Sign in</button>
+	    	</div>
+    	</div>
     </form>
-  </form>
 </div>
 <c:import url="/foot"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/Signin.css"/>
-
 <script>
-	$(document).ready(function(){
+	$(document).ready(function() {
 		var loginForm=$("#loginForm");
-		$("#button").on("click",function(e){
-			if(!loginForm.find("input[name='email']").val()){
+		$("#button").on("click",function(e) {
+			if(!loginForm.find("input[name='email']").val()) {
 				alert("이메일을 입력하세요");
 				return false;
-			}else if(!loginForm.find("input[name='pwd']").val()){
+			} else if(!loginForm.find("input[name='pwd']").val()) {
 				alert("비밀번호를 입력하세요");
 				return false;
 			}
 			e.preventDefault();
-			loginForm.submit();
-				
+			loginForm.submit();	
 		})
-		
-	
 	})
 </script>

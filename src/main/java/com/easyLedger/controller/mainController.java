@@ -179,7 +179,7 @@ public class mainController {
 		if(loginUser!=null) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);
-			ses.setMaxInactiveInterval(-1);	
+			ses.setMaxInactiveInterval(-1);
 		}
 		
 		return "redirect:main";
@@ -188,10 +188,8 @@ public class mainController {
 	@RequestMapping("logout")
 	public String logout(HttpSession ses) {
 		if(ses.getAttribute("loginUser") != null) {
-			ses.invalidate(); 
+			ses.invalidate();
 		}
 		return "redirect:/";
 	}
-	
-	
 }

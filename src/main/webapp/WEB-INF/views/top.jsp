@@ -12,14 +12,13 @@
     <title>easyLedger</title>  
 </head>
 <style>
-.navbar-default{
-  background-color:whitesmoke;
-}
-#footer{
-	text-align:center;
-	margin-top: 60px;
-}
-  
+	.navbar-default{
+		background-color:whitesmoke;
+	}
+	#footer{
+		text-align:center;
+		margin-top: 60px;
+	}
 </style>
 <script>
 
