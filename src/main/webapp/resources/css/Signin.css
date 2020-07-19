@@ -1,16 +1,73 @@
-.head{
+.head {
     text-align: center;
 }
-.head2{
+
+.head2 {
     text-align: center;
     font-size: 20px;
 }
-.container{
-width: 470px; 
-margin: 0 auto;
-text-align: left;
+
+.container {
+	width: 470px; 
+	margin: 0 auto;
+	text-align: left;
 }
-#button{
+
+#button {
     width: 266px;
     margin-left: 85px;
+}
+
+#emailArea {
+	width: 350px;
+	padding-left: 85px;
+	padding-top: 30px;
+}
+
+#passwordArea {
+	width: 350px;
+	padding-left: 85px;
+}
+
+#buttonArea {
+	 padding-bottom: 20px;"
+}
+
+@media (max-width: 480px) {
+	
+	.head {
+    text-align: center;
+	}
+
+	.head2 {
+	    text-align: center;
+	    font-size: 20px;
+	}
+	
+	.container {
+		width: 95%; 
+		margin: 0 auto;
+		text-align: left;
+	}
+	
+	#button {
+	    width: 90%;
+	    margin-left: 16px;
+	    margin-right: 16px;
+	}
+	
+	#emailArea {
+		width: 95%;
+		padding-left: 16px;
+		padding-top: 30px;
+	}
+	
+	#passwordArea {
+		width: 95%;
+		padding-left: 16px;
+	}
+	
+	#buttonArea {
+		padding-bottom: 20px;"
+	}
 }

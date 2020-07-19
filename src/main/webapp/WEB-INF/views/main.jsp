@@ -70,8 +70,8 @@ $(document).ready(function(){
           			</li>
           		</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href=""><span class=""></span>엑셀로 가져오기</a></li>
-					<li><a href=""><span class=""></span>엑셀로 내보내기</a></li> 
+					<li><a href=""><span class=""></span>엑셀 업로드</a></li>
+					<li><a href=""><span class=""></span>엑셀 다운로드</a></li> 
 					<li><a href="${pageContext.request.contextPath }/logout">
 						<span class="glyphicon glyphicon-log-out"></span>Log Out</a>
 				   </li>
