@@ -9,8 +9,10 @@
   			<typeAlias type="com.easyLedger.domain.PagingVO" alias="page"/>
   			<typeAlias type="com.easyLedger.domain.CriteriaVO" alias="cri"/>
   			<typeAlias type="com.easyLedger.domain.MemberVO" alias="member"/>
+  			<typeAlias type="com.easyLedger.domain.ExcelVO" alias="excelVo"/>
   		</typeAliases>
   		<mappers>
   			<mapper resource="mapper/easyLedgerMapper.xml"/>
+  			<mapper resource="mapper/excelMapper.xml"/>
   		</mappers>
   </configuration>

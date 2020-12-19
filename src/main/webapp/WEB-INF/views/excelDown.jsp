@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>잘못된 경로 입니다.</h1>
+
 </body>
 </html>

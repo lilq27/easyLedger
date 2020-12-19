@@ -10,6 +10,7 @@
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	<script src="/js/jquery.fileDownload.js"></script>
     <title>easyLedger</title>  
 </head>
 <style>
@@ -17,41 +18,6 @@
 		background-color:whitesmoke;
 	}
 </style>
-<script>
-$(document).ready(function(){
-	var actionForm=$("#actionForm");
-	$(".paginate_button a").on("click",function(e){
-		e.preventDefault();
-		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-		actionForm.submit();
-	});
-	
-	var searchForm=$("#searchForm");
-	$("#search").on("click",function(e){
-		if(!searchForm.find("input[name='keyWord']").val()){
-			alert("키워드를 입력하세요");
-			return false;
-		}
-		searchForm.find("input[name='pageNum']").val("1");
-		e.preventDefault();
-		searchForm.submit();	
-	})
-	
-	$("#tableClick tr").dblclick(function(){
-		var tr=$(this);
-		var td=tr.children();
-		var no = td.eq(0).text();
-		//alert(no);
-		/*$('#member_email').get(0).click(); */
- 		window.open('modify?bno='+no+'','등록','width=500,height=670');
- 		
-		$("#tableClick tr>th").dblclick(function(){
-			return false;
-		})
-	}) 	
-});
-
-</script>
 <body>
 	<nav class="navbar navbar-default">
     	<div class="container-fluid">
@@ -70,8 +36,8 @@ $(document).ready(function(){
           			</li>
           		</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href=""><span class=""></span>엑셀 업로드</a></li>
-					<li><a href=""><span class=""></span>엑셀 다운로드</a></li> 
+					<li><a href="${pageContext.request.contextPath }/excel_upload">엑셀 업로드</a></li>
+					<li><a href="${pageContext.request.contextPath }/excel_down">엑셀 다운로드</a></li> 
 					<li><a href="${pageContext.request.contextPath }/logout">
 						<span class="glyphicon glyphicon-log-out"></span>Log Out</a>
 				   </li>
@@ -157,4 +123,38 @@ $(document).ready(function(){
 		</div>
 	</div>      
 </body>
+<script>
+$(document).ready(function(){
+	var actionForm=$("#actionForm");
+	$(".paginate_button a").on("click",function(e){
+		e.preventDefault();
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	var searchForm=$("#searchForm");
+	$("#search").on("click",function(e){
+		if(!searchForm.find("input[name='keyWord']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		searchForm.find("input[name='pageNum']").val("1");
+		e.preventDefault();
+		searchForm.submit();	
+	})
+	
+	$("#tableClick tr").dblclick(function(){
+		var tr=$(this);
+		var td=tr.children();
+		var no = td.eq(0).text();
+		//alert(no);
+		/*$('#member_email').get(0).click(); */
+ 		window.open('modify?bno='+no+'','등록','width=500,height=670');
+ 		
+		$("#tableClick tr>th").dblclick(function(){
+			return false;
+		})
+	}) 	
+});
+</script>
 </html>

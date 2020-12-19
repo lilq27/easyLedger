@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.easyLedger.domain.BoardVO;
 import com.easyLedger.domain.CriteriaVO;
 import com.easyLedger.domain.MemberVO;
 import com.easyLedger.domain.PagingVO;
-import com.easyLedger.domain.BoardVO;
 import com.easyLedger.service.NotUserException;
 import com.easyLedger.service.boardService;
 
@@ -33,11 +33,6 @@ public class mainController {
 	@Inject
 	private boardService boardService;
 	
-	@GetMapping("/regist")
-	public String registration() {
-		return "registration";
-	}
-	
 	public void sessionEmail(HttpSession ses, MemberVO memberVo, CriteriaVO cri) {
 		MemberVO loginUser = (MemberVO)ses.getAttribute("loginUser");
 		if(loginUser != null && !loginUser.toString().isEmpty()) {
@@ -47,9 +42,9 @@ public class mainController {
 	}
 
 	@RequestMapping("/main")
-	/**mainController.paging*/
-	public String paging(Model m,@ModelAttribute CriteriaVO cri,
-			MemberVO memberVo, HttpSession ses){
+	/** mainController.paging */
+	public String paging(Model m, @ModelAttribute CriteriaVO cri,
+			MemberVO memberVo, HttpSession ses) {
 
 		sessionEmail(ses, memberVo, cri);
 		
@@ -72,6 +67,11 @@ public class mainController {
 		}
 		
 		return "asd";
+	}
+	
+	@GetMapping("/regist")
+	public String registration() {
+		return "registration";
 	}
 	
 	@PostMapping("/regist")
@@ -105,17 +105,24 @@ public class mainController {
 	@PostMapping("/modify")
 	public String modification(@RequestParam(defaultValue = "")String mode, 
 							   @RequestParam(defaultValue = "")String mode2, 
-							   BoardVO board, @RequestParam(defaultValue = "0") String bno, 
+							   BoardVO board, @RequestParam("bno") String bno, 
 							   Model m) {
 		try {	
 			int n = 0;
 			String msg = "";
-			if(mode.equals("mdf")) {
-				n = this.boardService.modify(board);
-				msg = "수정";
-			}else if(mode2.equals("dlt")) {
-				n = this.boardService.delete(bno);
-				msg = "삭제";
+			
+			if(mode != null && !mode.isEmpty()) {
+				if("mdf".equals(mode)) {
+					n = this.boardService.modify(board);
+					msg = "수정";
+				}
+			}
+			
+			if(mode2 != null && !mode2.isEmpty()) {	
+				if("dlt".equals(mode2)) {
+					n = this.boardService.delete(bno);
+					msg = "삭제";
+				}
 			}
 			
 			msg += (n > 0) ? " 성공" :" 실패";
@@ -126,7 +133,7 @@ public class mainController {
 			m.addAttribute("loc",loc);
 		} catch(Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			log.info("modify error: " +e);
 		}
 		return "message";
 	}
@@ -176,7 +183,7 @@ public class mainController {
 		}
 		MemberVO loginUser=boardService.loginCheck(email, pwd);
 		
-		if(loginUser!=null) {
+		if(loginUser!=null && !loginUser.toString().isEmpty()) {
 			ses.setAttribute("email", email);
 			ses.setAttribute("loginUser", loginUser);
 			ses.setMaxInactiveInterval(-1);
@@ -185,11 +192,11 @@ public class mainController {
 		return "redirect:main";
 	}
 	
-	@RequestMapping("logout")
+	@RequestMapping("/logout")
 	public String logout(HttpSession ses) {
 		if(ses.getAttribute("loginUser") != null) {
 			ses.invalidate();
 		}
 		return "redirect:/";
-	}
+	}	
 }

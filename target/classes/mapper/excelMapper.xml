@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.easyLedger.mapper.ExcelMapper">
+  
+  	<select id="selectExcelList" fetchSize="100" resultType="excelVo">
+  		SELECT  num,
+  				name,
+  				title,
+  				read_count,
+  				write_date
+  		  FROM  excel_board
+  		 WHERE  tilte LIKE '%'||#{word}||'%'
+  		 ODER BY num DESC
+  	</select>
+  
+  	<select id="selectBoardList" parameterType="member" resultType="board">
+  		SELECT  bno,
+  				name,
+  				grade,
+  				paid,
+  				depositdate,
+  				paymentoption,
+  				memo
+		  FROM  board
+		 WHERE  member_email = #{email:VARCHAR}
+  	
+  	</select>
+  
+  </mapper>
