@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -40,6 +41,8 @@ public class ExcelController {
 	@GetMapping("/excel_down")
 	public ExcelDownloadView excelDown(CriteriaVO cri, MemberVO memberVo, HttpSession ses, Model model) {
 		
+		ExcelDownloadView excelDownloadView = new ExcelDownloadView();
+		
 		mainController.sessionEmail(ses, memberVo, cri);
 		
 		List<BoardVO> boardList = excelService.selectBoardList(cri.getEmail());
@@ -50,15 +53,18 @@ public class ExcelController {
 		model.addAttribute("workBook", workBook);
 		model.addAttribute("workBookName", "easyLedger");
 		
-		ExcelDownloadView excelDownloadView = new ExcelDownloadView();
-		
 		return excelDownloadView;
 	}
 	
-	@GetMapping("excel_upload")
-	public String uploadExcelFile(MultipartHttpServletRequest request, Model model) {
+	@GetMapping("/excelForm")
+	public String excelForm() {
+		return "excelForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("/excel_upload")
+	public String uploadExcelFile(MultipartHttpServletRequest request, MultipartFile file, Model model) {
 		
-		MultipartFile file = null;
 		Iterator<String> iterator = request.getFileNames();
 		if(iterator.hasNext()) {
 			file = request.getFile(iterator.next());

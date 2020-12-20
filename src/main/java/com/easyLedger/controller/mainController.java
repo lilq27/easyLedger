@@ -161,7 +161,6 @@ public class mainController {
 	public @ResponseBody int emailCheck(@RequestParam("email") String email) {
 		
 		int n=boardService.emailCheck(email);
-		System.out.println(email);
 		
 		return n;	
 	}

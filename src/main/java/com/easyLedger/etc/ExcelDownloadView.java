@@ -61,15 +61,23 @@ public class ExcelDownloadView extends AbstractView{
 			workBook.write(os);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} finally {
+			
+			if(workBook != null) {
+				try {
+					workBook.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		
-		if(os != null) {
-			try {
-				os.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(os != null) {
+				try {
+					os.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-
 }

@@ -10,7 +10,7 @@
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  	<script src="/js/jquery.fileDownload.js"></script>
+<!--   	<script src="/js/jquery.fileDownload.js"></script> -->
     <title>easyLedger</title>  
 </head>
 <style>
@@ -36,7 +36,7 @@
           			</li>
           		</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="${pageContext.request.contextPath }/excel_upload">엑셀 업로드</a></li>
+					<li><a href="${pageContext.request.contextPath }/excelForm">엑셀 업로드</a></li>
 					<li><a href="${pageContext.request.contextPath }/excel_down">엑셀 다운로드</a></li> 
 					<li><a href="${pageContext.request.contextPath }/logout">
 						<span class="glyphicon glyphicon-log-out"></span>Log Out</a>
@@ -141,7 +141,7 @@ $(document).ready(function(){
 		searchForm.find("input[name='pageNum']").val("1");
 		e.preventDefault();
 		searchForm.submit();	
-	})
+	});
 	
 	$("#tableClick tr").dblclick(function(){
 		var tr=$(this);
@@ -154,7 +154,7 @@ $(document).ready(function(){
 		$("#tableClick tr>th").dblclick(function(){
 			return false;
 		})
-	}) 	
+	});
 });
 </script>
 </html>

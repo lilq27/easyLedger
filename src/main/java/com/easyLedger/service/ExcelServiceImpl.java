@@ -81,11 +81,12 @@ public class ExcelServiceImpl implements ExcelService{
 		
 		Row bodyRow = null;
 		Cell bodyCell = null;
+		int i = 1;
 		for(BoardVO boardVo : boardList) {
-			bodyRow = sheet.createRow(boardList.size());
+			bodyRow = sheet.createRow(i);
 			
 			bodyCell = bodyRow.createCell(0);
-			bodyCell.setCellValue(boardVo.getBno());
+			bodyCell.setCellValue(i);
 			
 			bodyCell = bodyRow.createCell(1);
 			bodyCell.setCellValue(boardVo.getName());
@@ -104,6 +105,7 @@ public class ExcelServiceImpl implements ExcelService{
 			
 			bodyCell = bodyRow.createCell(6);
 			bodyCell.setCellValue(boardVo.getMemo());
+			i++;
 		}
 		
 		return workBook;
