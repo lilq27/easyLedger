@@ -5,13 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<title>Insert title here</title>
 </head>
 <body>
-	<form id="Excel-form" method="post" enctype="multipart/form-data">
+	<form id="Excel-form" method="post" enctype="multipart/form-data" action="/excel_upload">
 		<input type="file" accept=".xlsx, .xls"></input>
-		<button type="button" onclick="excelForm()">업로드</button>
+		<input id="ButtonId" type="submit" value="업로드"></input>
 	</form>
 	
 	<button onclick="asd()">asd</button>
@@ -19,8 +20,8 @@
 </body>
 <script>
 
-	
-	function excelForm() {
+$(function(){
+	$("#ButtonId").click(function(){		
 		console.log(1)
 		$.ajax({
 			url: "/excel_upload",
@@ -31,12 +32,12 @@
 				console.log(data)
 			}
 		});
-	}
+	})
 	
 	function asd() {
 		console.log(3)
 	}
-
+});
 
 </script>
 </html>

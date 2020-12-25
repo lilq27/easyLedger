@@ -16,7 +16,7 @@
 		<property name="jdbcUrl"
 			value="jdbc:oracle:thin:@localhost:1521:XE"></property>
 		<property name="username" value="easyLedger"></property>
-		<property name="password" value="1234"></property>
+		<property name="password" value="123"></property>
 	</bean>
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
