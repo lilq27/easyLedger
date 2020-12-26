@@ -10,26 +10,38 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<form id="Excel-form" method="post" enctype="multipart/form-data" action="/excel_upload">
-		<input type="file" accept=".xlsx, .xls"></input>
-		<input id="ButtonId" type="submit" value="업로드"></input>
-	</form>
+	<div class="uploadDiv">
+		<input type="file" name="uploadExcel" multiple></input>
+	</div>
 	
-	<button onclick="asd()">asd</button>
+	<button id="ButtonId">업로드</button>
 
 </body>
 <script>
 
 $(function(){
-	$("#ButtonId").click(function(){		
-		console.log(1)
+	$("#ButtonId").click(function(){
+		var formData = new FormData();
+		var inputFile = $("input[name='uploadExcel']");
+		var files = inputFile[0].files;
+		
+		if(files.length == 1) {
+			formData.append("file", files[0]); //controller의 MultipartFile 변수명과 일치해야함
+			console.log(files)
+			console.log(123)
+		} else if(files.length > 1) {
+			alert("업로드는 한개만");
+		}
+		
 		$.ajax({
-			url: "/excel_upload",
-			type: "POST",
+			url: "${pageContext.request.contextPath}/excel_upload",
 			processData: false,//파일다운로드 관련 설정 
 			contentType: false,//파일다운로드 관련 설정
-			sucess: function(data) {
+			data: formData,
+			type: "POST",
+			success: function(data) {
 				console.log(data)
+				alert("Uploaded");
 			}
 		});
 	})

@@ -130,22 +130,22 @@ public class ExcelServiceImpl implements ExcelService{
 					continue;
 				}
 				
-				XSSFCell cell = row.getCell(2);
+				XSSFCell cell = row.getCell(1);
 				if(cell != null) boardVo.setName(cell.getStringCellValue());
 				
-				cell = row.getCell(3);
+				cell = row.getCell(2);
 				if(cell != null) boardVo.setGrade(cell.getStringCellValue());
 				
-				cell = row.getCell(4);
+				cell = row.getCell(3);
 				if(cell != null) boardVo.setPaid(cell.getStringCellValue());
 				
-				cell = row.getCell(5);
+				cell = row.getCell(4);
 				if(cell != null) boardVo.setDepositDate(cell.getStringCellValue());
 				
-				cell = row.getCell(6);
+				cell = row.getCell(5);
 				if(cell != null) boardVo.setPaymentOption(cell.getStringCellValue());
 				
-				cell = row.getCell(7);
+				cell = row.getCell(6);
 				if(cell != null) boardVo.setMemo(cell.getStringCellValue());
 				
 				boardList.add(boardVo);

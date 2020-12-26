@@ -65,16 +65,15 @@ public class ExcelController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/excel_upload", method = RequestMethod.POST)
-	public String uploadExcelFile(HttpServletRequest request, MultipartFile file, Model model) {
+	public String uploadExcelFile(MultipartFile[] file, Model model) {
 		
-		MultipartHttpServletRequest multiPartRequest = (MultipartHttpServletRequest)request;
 		
-		Iterator<String> iterator = multiPartRequest.getFileNames();
-		if(iterator.hasNext()) {
-			file = multiPartRequest.getFile(iterator.next());
-		}
-		
-		List<BoardVO> excelList = excelService.uploadExcelFile(file);
+//		Iterator<String> iterator = multiPartRequest.getFileNames();
+//		if(iterator.hasNext()) {
+//			file = multiPartRequest.getFile(iterator.next());
+//		}
+//		
+		List<BoardVO> excelList = excelService.uploadExcelFile(file[0]);
 		
 		int n = 0;
 		for(BoardVO board : excelList) {
