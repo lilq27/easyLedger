@@ -1,36 +1,23 @@
 package com.easyLedger.etc;
 
-import java.io.FileInputStream;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelUploadView {
 
-	public static Workbook getwWorkbook(String filePath) {
+	public static MultipartFile getwWorkbook(MultipartFile excelFile) {
 		
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(filePath);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		String excelFileName = excelFile.getOriginalFilename();
+		
+		if(excelFileName.toUpperCase().endsWith(".XLS") ) {
+			
+			return excelFile;
+			
+		} else if(excelFileName.toUpperCase().endsWith(".XLSX")) {
+			
+			return excelFile;
 		}
 		
-		Workbook workBook = null;
-		
-		if(filePath.toUpperCase().endsWith(".XLS") ) {
-			try {
-				workBook = new HSSFWorkbook(fileInputStream);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else if(filePath.toUpperCase().endsWith(".XLSX")) {
-			try {
-				workBook = new HSSFWorkbook(fileInputStream);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return workBook;
+		return null;
 	}
 }

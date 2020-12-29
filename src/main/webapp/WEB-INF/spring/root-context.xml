@@ -11,16 +11,13 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
 		<property name="username" value="easyLedger"></property>
 		<property name="password" value="123"></property>
 	</bean>
 
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 		
@@ -33,8 +30,7 @@
 		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

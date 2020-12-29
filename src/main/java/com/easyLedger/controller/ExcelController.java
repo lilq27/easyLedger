@@ -1,10 +1,8 @@
 package com.easyLedger.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -12,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.easyLedger.domain.BoardVO;
 import com.easyLedger.domain.CriteriaVO;
@@ -59,31 +56,33 @@ public class ExcelController {
 	}
 	
 	@GetMapping("/excelForm")
-	public String excelForm() {
+	public String excelForm(Model model) {
+		model.addAttribute("msg", "gs");
 		return "excelForm";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/excel_upload", method = RequestMethod.POST)
-	public String uploadExcelFile(MultipartFile[] file, Model model) {
+	@PostMapping("/excel_upload")
+	public Boolean uploadExcelFile(boolean longFile,
+			MultipartFile[] file, CriteriaVO cri, MemberVO memberVo, HttpSession ses, Model model) {
+		//boolean은 null불가, Boolean은 null 가능 
+		mainController.sessionEmail(ses, memberVo, cri);
 		
-		
-//		Iterator<String> iterator = multiPartRequest.getFileNames();
-//		if(iterator.hasNext()) {
-//			file = multiPartRequest.getFile(iterator.next());
-//		}
-//		
 		List<BoardVO> excelList = excelService.uploadExcelFile(file[0]);
 		
 		int n = 0;
-		for(BoardVO board : excelList) {
-			n = boardService.registration(board);
+		
+		if(excelList != null && !excelList.isEmpty()) {	
+			for(BoardVO board : excelList) {
+				board.setMember_email(cri.getEmail());
+				n = boardService.registration(board);
+			}
+		} else if(excelList == null) {
+			longFile = true;
+			return longFile;
 		}
 		
-		String msg = (n > 0) ? "업로드 완료" : "업로드 실패";
-		
-		model.addAttribute("msg", msg);
-		
-		return "redirect:main";
+		longFile = (n > 0) ? false : true;
+		return longFile;
 	}
 }

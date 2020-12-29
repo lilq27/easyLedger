@@ -15,6 +15,7 @@
 	</div>
 	
 	<button id="ButtonId">업로드</button>
+	<div>${longFile}</div>
 
 </body>
 <script>
@@ -28,9 +29,8 @@ $(function(){
 		if(files.length == 1) {
 			formData.append("file", files[0]); //controller의 MultipartFile 변수명과 일치해야함
 			console.log(files)
-			console.log(123)
 		} else if(files.length > 1) {
-			alert("업로드는 한개만");
+			alert("업로드는 한개씩만 가능합니다.");
 		}
 		
 		$.ajax({
@@ -39,9 +39,13 @@ $(function(){
 			contentType: false,//파일다운로드 관련 설정
 			data: formData,
 			type: "POST",
-			success: function(data) {
-				console.log(data)
-				alert("Uploaded");
+			success: function(data) {//data는 컨트롤러 return값 
+				if(data == true) {
+					console.log(data)
+					alert("업로드 실패, 확장자명 또는 파일을 다시 확인하세요");
+				} else {
+					alert("업로드 완료");
+				}
 			}
 		});
 	})

@@ -126,7 +126,7 @@ public class mainController {
 			}
 			
 			msg += (n > 0) ? " 성공" :" 실패";
-			String loc=(n > 0) ? "javascript:opener.parent.location.reload(); "
+			String loc = (n > 0) ? "javascript:opener.parent.location.reload(); "
 					+ "window.close();" : "javascript:history.back()";
 					
 			m.addAttribute("msg",msg);
@@ -148,11 +148,11 @@ public class mainController {
 		
 		int n=boardService.memberRegist(member);
 		
-		String msg=(n>0)?"회원가입 성공":"회원가입 실패";
-		String loc=(n>0)?"/easyLedger":"javascript:history.back()";
+		String msg = (n > 0) ? "회원가입 성공" : "회원가입 실패";
+		String loc = (n > 0) ? "/easyLedger" : "javascript:history.back()";
 		
-		m.addAttribute("msg",msg);
-		m.addAttribute("loc",loc);
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
 						
 		return "message";
 	}
@@ -160,7 +160,7 @@ public class mainController {
 	@RequestMapping(value = "signup/emailcheck", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	public @ResponseBody int emailCheck(@RequestParam("email") String email) {
 		
-		int n=boardService.emailCheck(email);
+		int n = boardService.emailCheck(email);
 		
 		return n;	
 	}

@@ -43,7 +43,7 @@ $("#email").keyup(function() {/*바로바로 됨  */
 		/* dataType: "json", 안써도 됨*/		
 		success : function(data){
 			console.log(data);
-			if(data==1) {
+			if(data == 1) {
 				$("#emailCheck").text("사용중");
 				check=false;
 			} else {
