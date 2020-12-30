@@ -58,7 +58,7 @@ $(document).ready(function(){
             </div>
             <div class="form-group">
                 <label for="memo">메모:</label>
-                <textarea class="form-control" rows="5" id="memo" name="memo"></textarea>
+                <textarea class="form-control" rows="5" id="memo" name="memo">${board.memo}</textarea>
             </div>
             <div align="right">
                 <button class="btn btn-success" id="modifybt" name="mode" value="mdf">수정</button>

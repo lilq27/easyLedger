@@ -12,10 +12,10 @@
     <title>easyLedger</title>  
 </head>
 <style>
-	.navbar-default{
+	.navbar-default {
 		background-color:whitesmoke;
 	}
-	#footer{
+	#footer {
 		text-align:center;
 		margin-top: 60px;
 	}
@@ -39,9 +39,9 @@
 		
 			<div class="collapse navbar-collapse" id="myNavbar">
 			    <ul class="nav navbar-nav navbar-right">
-			   		<li><a href="${pageContext.request.contextPath }/signin"><span class="glyphicon glyphicon-log-in"></span>
+			   		<li><a href="${pageContext.request.contextPath}/signin"><span class="glyphicon glyphicon-log-in"></span>
 			      	Sign in</a></li>
-			    	<li><a href="${pageContext.request.contextPath }/signup"><span class="glyphicon glyphicon-user"></span>
+			    	<li><a href="${pageContext.request.contextPath}/signup"><span class="glyphicon glyphicon-user"></span>
 			        Sign up</a></li>
 			    </ul>
 		    </div>

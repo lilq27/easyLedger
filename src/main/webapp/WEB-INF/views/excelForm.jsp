@@ -18,10 +18,11 @@
 	<div>${longFile}</div>
 
 </body>
+<c:import url="/foot"/>
 <script>
 
-$(function(){
-	$("#ButtonId").click(function(){
+$(function() {
+	$("#ButtonId").click(function() {
 		var formData = new FormData();
 		var inputFile = $("input[name='uploadExcel']");
 		var files = inputFile[0].files;
@@ -49,11 +50,5 @@ $(function(){
 			}
 		});
 	})
-	
-	function asd() {
-		console.log(3)
-	}
 });
-
 </script>
-</html>

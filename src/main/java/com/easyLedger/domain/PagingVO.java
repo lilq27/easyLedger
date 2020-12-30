@@ -3,28 +3,35 @@ package com.easyLedger.domain;
 public class PagingVO {
 	
 	private int startPage;
+	
 	private int endPage;
+	
 	private boolean prev, next;
 	
 	private int total;
+	
 	private CriteriaVO cri;
-
 	
 	public PagingVO(int total, CriteriaVO cri) {
+	
 		super();
+		
 		this.total = total;
+		
 		this.cri = cri;
 		
-		this.endPage = (int)(Math.ceil(cri.getPageNum()/5.0))*5;
+		this.endPage = (int)(Math.ceil(cri.getPageNum() / 5.0)) * 5;
 		
-		this.startPage = this.endPage-4;
+		this.startPage = this.endPage - 4;
 		
-		int realEnd = (int)(Math.ceil((total*1.0)/cri.getAmount()));
+		int realEnd = (int)(Math.ceil((total * 1.0)/cri.getAmount()));
 		
 		if(realEnd < this.endPage) {
 			this.endPage = realEnd;
 		}
+		
 		this.prev = this.startPage > 1;
+		
 		this.next = this.endPage < realEnd;
 	
 	}
@@ -76,9 +83,4 @@ public class PagingVO {
 	public void setCri(CriteriaVO cri) {
 		this.cri = cri;
 	}
-
-
-	
-	
-	
 }

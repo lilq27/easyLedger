@@ -1,0 +1,10 @@
+#Easy-table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.trTbody td {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
