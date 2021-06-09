@@ -13,17 +13,18 @@
     <title>modify</title>
 </head>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#modifybt").click(function(){
-		
-		$("#modify").submit();
+$(document).ready(function() {
+	$("#modifybt").click(function() {
+		var check = confirm("수정 하시겠습니까?");
+		if(check) {
+			submit();
+		} else return false;
 	});
 	
 	$("#deletebt").click(function(){
-		if(confirm("정말 삭제 하시겠습니까?")==true){
-		$("#modify").submit();
-		}else return false;
-		alert("삭제 되었습니다.");
+		if(confirm("정말 삭제 하시겠습니까?")==true) {
+			submit();
+		} else return false;
 	});
 });
 </script>

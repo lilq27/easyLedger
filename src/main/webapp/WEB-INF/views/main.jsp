@@ -40,7 +40,7 @@
           			</li>
           		</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="javascript:void(window.open('${pageContext.request.contextPath}/excelForm','업로드','width=500,height=670'))">엑셀 업로드</a></li>
+					<li><a href="javascript:void(window.open('${pageContext.request.contextPath}/excelForm','업로드','width=500,height=500'))">엑셀 업로드</a></li>
 					<li><a href="${pageContext.request.contextPath}/excel_down">엑셀 다운로드</a></li> 
 					<li><a href="${pageContext.request.contextPath}/logout">
 						<span class="glyphicon glyphicon-log-out"></span>Log Out</a>

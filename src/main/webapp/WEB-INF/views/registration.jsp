@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,12 +42,20 @@
                 <textarea class="form-control" rows="5" id="memo" name="memo"></textarea>
             </div>
             <div align="right">
-                <button class="btn btn-success" id="rgt" type="submit">등록</button>
+                <button class="btn btn-success" id="rgt">등록</button>
         	</div>
 		</form>
     </div>
 </body>
 <script type="text/javascript">
+$(function(){
+	$("#rgt").click(function(){
+		var check = confirm("등록 하시겠습니까?");
+		if(check) {
+			submit();
+		} else return false;
+	});
+});
 	
 </script>
 </html>
