@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title></title>
+</head>
+<body>
+</body>
+<script>
+$(function() {
+	var searchTxet = "속보";
+	var display = "1";
+	var clientId = "9MFstzf0XhGu4qw3Jitl";
+	var clientSecret = "WtQx7obTlW";
+	
+	$.ajax({
+		url: 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI(searchTxet) + '&display=' + encodeURI(display),
+	    method: 'get',
+	    dataType: 'json',
+	    headers: {
+	    	'Content-Type':'application/x-www-form-urlencoded',
+	    	'X-Naver-Client-Id':clientId,
+	    	'X-Naver-Client-Secret':clientSecret
+	    },
+	    success: function(returnData) {
+	    	console.log(returnData);
+	    },
+	    error: function(err) {
+	    	console.log(err);
+	    	console.log(clientId);
+	    	console.log(clientSecret);
+	    }
+	});
+	
+	$.ajax({
+		url: 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI(searchTxet) + '&display=' + encodeURI(display),
+	    method: 'get',
+	    dataType: 'json',
+	    beforeSend: function(xhr) {
+	    	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	    	xhr.setRequestHeader('X-Naver-Client-Id', clientId);
+	    	xhr.setRequestHeader('X-Naver-Client-Secret', clientSecret);
+	    },
+	    success: function(returnData) {
+	    	console.log(returnData);
+	    },
+	    error: function(err) {
+	    	console.log(err);
+	    }
+	});
+	
+	var xhr = new XMLHttpRequest();
+	var url = 'https://openapi.naver.com/v1/search/news.json?query=' + encodeURI(searchTxet) + '&display=' + encodeURI(display);
+	
+	xhr.open('get', url, true);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.setRequestHeader('X-Naver-Client-Id', clientId);
+	xhr.setRequestHeader('X-Naver-Client-Secret', clientSecret);
+	
+	xhr.onload = function() {
+		if(xhr.status == 200) {
+			var result = xhr.response;
+			console.log(xhr);
+		} else {
+			console.log(xhr);
+		}
+	}
+	xhr.send();
+});
+</script>
