@@ -172,9 +172,7 @@ public class mainController {
 
 	@RequestMapping(value = "signup/emailcheck", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	public @ResponseBody int emailCheck(@RequestParam("email") String email) {
-		
 		int n = boardService.emailCheck(email);
-		
 		return n;	
 	}
 	
