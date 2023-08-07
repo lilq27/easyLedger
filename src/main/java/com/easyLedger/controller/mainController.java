@@ -285,6 +285,8 @@ public class mainController {
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless", "--window-size=1920, 1280");
 		
+		
+		
 //		options.setCapability("email", "asd");
 //		options.setCapability("pwd", "zcx");
 		
