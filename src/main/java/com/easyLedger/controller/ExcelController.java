@@ -42,7 +42,7 @@ public class ExcelController {
 		
 		ExcelDownloadView excelDownloadView = new ExcelDownloadView();
 		
-		mainController.sessionEmail(memberVo, cri);
+		mainController.sessionEmail();
 		
 		List<BoardVO> boardList = excelService.selectBoardList(cri.getEmail());
 		
@@ -65,8 +65,7 @@ public class ExcelController {
 	@PostMapping("/excel_upload")
 	public Boolean uploadExcelFile(boolean longFile,
 			MultipartFile[] file, CriteriaVO cri, MemberVO memberVo, HttpSession ses, Model model) {
-		//boolean은 null불가, Boolean은 null 가능 
-		mainController.sessionEmail(memberVo, cri);
+		mainController.sessionEmail();
 		
 		List<BoardVO> excelList = excelService.uploadExcelFile(file[0]);
 		

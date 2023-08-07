@@ -1,12 +1,24 @@
 package com.easyLedger.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,11 +53,39 @@ public class mainController {
 	@Autowired
 	private HttpServletRequest httpRequest;
 	
-	public void sessionEmail(MemberVO memberVo, CriteriaVO cri) {
+	public MemberVO sessionEmail() {
 		MemberVO loginUser = (MemberVO)httpSession.getAttribute("loginUser");
+		System.out.println("getloginUser22222");
 		if(loginUser != null && !loginUser.toString().isEmpty()) {
-			memberVo.setEmail(loginUser.getEmail());
-			cri.setEmail(loginUser.getEmail());
+			System.out.println("getloginUser33333"+ loginUser.getEmail() + loginUser.getPwd());
+			return loginUser;
+		} else {
+			
+			
+			String email = null;
+			String pwd = null;
+			
+			Cookie [] cookies = httpRequest.getCookies();
+		   	try {
+				for(Cookie cookie : cookies) {
+					
+					
+					if("email".equals(cookie.getName())) {
+						email = cookie.getValue();
+					}
+					
+					if("pwd".equals(cookie.getName())) {
+						pwd = cookie.getValue();
+					}
+				}
+			    
+			    loginUser = boardService.loginCheck(email.toString(), pwd.toString());
+			    
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return loginUser;
 		}
 	}
 
@@ -53,10 +93,9 @@ public class mainController {
 	/** mainController.paging */
 	public String paging(Model m, @ModelAttribute CriteriaVO cri,
 			MemberVO memberVo, HttpSession ses) {
-
-		sessionEmail(memberVo, cri);
 		
-		if(cri.getEmail() != null && !cri.getEmail().isEmpty()) {
+		if(sessionEmail() != null) {
+			cri.setEmail(sessionEmail().getEmail());
 			List<BoardVO> blist = boardService.selectPaging(cri);
 			int totalCount = boardService.getTotalCount(cri);
 			PagingVO paging = new PagingVO(totalCount, cri);
@@ -79,7 +118,7 @@ public class mainController {
 		
 		}
 		
-		return "asd";
+		return "main";
 	}
 	
 	@GetMapping("/regist")
@@ -91,7 +130,6 @@ public class mainController {
 	public String regist(@ModelAttribute BoardVO board, Model m, 
 			MemberVO memberVo, CriteriaVO cri) {
 		
-		sessionEmail(memberVo, cri);
 		board.setMember_email(memberVo.getEmail());
 		int n = this.boardService.registration(board);
 		
@@ -170,10 +208,22 @@ public class mainController {
 		return "message";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "signup/emailcheck", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-	public @ResponseBody int emailCheck(@RequestParam("email") String email) {
+	public void emailCheck(@RequestParam String email, HttpServletResponse response) {
+		boolean useEmail = false;
 		int n = boardService.emailCheck(email);
-		return n;	
+		if(n > 0) {
+			useEmail = true;
+		}
+		
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(useEmail);
+			out.flush();	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GetMapping("/signin")
@@ -194,9 +244,17 @@ public class mainController {
 		MemberVO loginUser=boardService.loginCheck(email, pwd);
 		
 		if(loginUser!=null && !loginUser.toString().isEmpty()) {
-			httpSession.setAttribute("email", email);
+			Cookie cookie = new Cookie("email", email);
+			res.addCookie(cookie);
+			httpSession.setAttribute("email", cookie);
+			
+			cookie = new Cookie("pwd", pwd);
+			res.addCookie(cookie);
+			httpSession.setAttribute("pwd", cookie);
+			
 			httpSession.setAttribute("loginUser", loginUser);
 			httpSession.setMaxInactiveInterval(-1);
+			
 		}
 		
 		return "redirect:main";
@@ -209,4 +267,84 @@ public class mainController {
 		}
 		return "redirect:/";
 	}	
+	
+	
+	@ResponseBody
+	@GetMapping("/capture_test")
+	public void test(String url, HttpServletRequest request, HttpServletResponse res) throws NotUserException {
+		
+		System.out.println("url: "+ url);
+		String email = null;
+		String pwd = null;
+		
+//		Cookie [] cookies = request.getCookies();
+
+		
+		System.setProperty("webdriver.chrome.driver", "/Users/yeonguksong/Downloads/chromedriver_mac64/chromedriver");
+		
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless", "--window-size=1920, 1280");
+		
+//		options.setCapability("email", "asd");
+//		options.setCapability("pwd", "zcx");
+		
+		WebDriver driver = new ChromeDriver(options);
+		
+		MemberVO getloginUser = (MemberVO)httpSession.getAttribute("loginUser");
+		
+		System.out.println("getloginUser1111"+ getloginUser.getEmail() + getloginUser.getPwd());
+
+//		driver.manage().addCookie(new org.openqa.selenium.Cookie("email", getloginUser.getEmail(), url, "/", null ) );
+//		driver.manage().addCookie(new org.openqa.selenium.Cookie("pwd", getloginUser.getPwd(), url, "/", null ) );
+		
+		driver.get(url);
+		
+		driver.manage().addCookie(new org.openqa.selenium.Cookie("email", getloginUser.getEmail() ) );
+		driver.manage().addCookie(new org.openqa.selenium.Cookie("pwd", getloginUser.getPwd() ) );
+		
+		
+		
+   		email = driver.manage().getCookieNamed("email").toString();
+	    System.out.println("email!!!!" + email);
+	    
+	    pwd = driver.manage().getCookieNamed("pwd").toString();
+	    System.out.println("pwd!!!" + pwd);
+	    
+	    Set<org.openqa.selenium.Cookie> cookies = driver.manage().getCookies();
+	    
+		for(org.openqa.selenium.Cookie cookie : cookies) {
+			
+			if("email".equals(cookie.getName())) {
+				email = cookie.getValue();
+			}
+			
+			if("pwd".equals(cookie.getName())) {
+				pwd = cookie.getValue();
+			}
+		}
+	    
+	    
+		Cookie cookie = new Cookie("email", email);
+		res.addCookie(cookie);
+		
+		cookie = new Cookie("pwd", pwd);
+		res.addCookie(cookie);
+		
+		driver.navigate().refresh();
+		
+		WebElement element = null;
+		element = driver.findElement(By.xpath("//*[@id=\"Container\"]/div[1]/ul/li[2]/a"));
+		element.click();
+		element = driver.findElement(By.id("Container"));
+		File elementScreenShot = element.getScreenshotAs(OutputType.FILE);
+		
+		
+		try {
+			FileUtils.copyFile(elementScreenShot, new File("/Users/yeonguksong/Downloads/chromedriver_mac64/el_ss.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		driver.quit();
+	}
 }

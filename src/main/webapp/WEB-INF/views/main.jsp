@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -40,6 +39,7 @@
           			</li>
           		</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<li><a id="CaptureBw" onclick="preventClick(event)">화면 캡쳐</a></li>
 					<li><a href="javascript:void(window.open('${pageContext.request.contextPath}/excelForm','업로드','width=500,height=500'))">엑셀 업로드</a></li>
 					<li><a href="${pageContext.request.contextPath}/excel_down">엑셀 다운로드</a></li> 
 					<li><a href="${pageContext.request.contextPath}/logout">
@@ -50,7 +50,7 @@
     	</div>
 	</nav>
 
-	<div class="container">
+	<div id="Container" class="container">
 		<h2>Easy Ledger</h2>            
 		<table class="table table-hover" id="Easy-table" style="table-layout: fixed;">
 	  	<c:forEach var="select" items="${boardList}">	
@@ -166,5 +166,28 @@ $(function() {
 			return false;
 		});
 	});
+	
+	function preventClick(e) {
+		console.log(e);
+		e.preventDefault();
+	}
+	
+	$("#CaptureBw").click(function() {
+		console.log(window.location.href)
+		var url = "${pageContext.request.contextPath}/capture_test";
+		var data = {url : window.location.href};
+		
+		$.ajax({
+			url : url,
+			type : "get",
+			dataType : "json",
+			data : data,
+			success : function(data) {
+				
+			}, error : function(data) {
+			}
+		});
+	});
+	
 });
 </script>

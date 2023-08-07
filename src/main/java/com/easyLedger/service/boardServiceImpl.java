@@ -83,13 +83,4 @@ public class boardServiceImpl implements boardService {
 		if(!dbuser.getPwd().equals(pwd)) throw new NotUserException("비밀번호가 일치하지 않습니다.");
 		return dbuser;
 	}
-
-
-
-	
-
-
-
-
-	
 }

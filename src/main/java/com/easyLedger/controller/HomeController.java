@@ -27,12 +27,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/top")
-	public String top(){
-		return "top";
+	public String top() {
+		return "layout/top";
 	}
+	
 	@RequestMapping("/foot")
 	public String foot() {
-		return "foot";
+		return "layout/foot";
 	}
 	
 }

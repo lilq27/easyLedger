@@ -49,13 +49,12 @@
 </body>
 <script type="text/javascript">
 $(function(){
-	$("#rgt").click(function(){
+	$("#rgt").click(function() {
 		var check = confirm("등록 하시겠습니까?");
 		if(check) {
 			submit();
 		} else return false;
 	});
 });
-	
 </script>
 </html>
